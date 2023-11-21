@@ -1,0 +1,36 @@
+.x_axis_barchart {
+    font-size: 20px;
+}
+
+.x_axis_barchart .domain {
+    display: none;
+}
+
+.y_axis_barchart_left {
+    font-size: 20px;
+}
+
+.y_axis_barchart_left .domain {
+    display: none;
+}
+
+.y_axis_barchart_left .tick:first-of-type text {
+    display: none;
+}
+
+.y_axis_barchart_right {
+    font-size: 20px;
+    color: #99ca3c;
+}
+
+.y_axis_barchart_right .domain {
+    display: none;
+}
+
+.y_axis_barchart_right .tick:first-of-type text {
+    display: none;
+}
+
+.legend-text {
+    font-family: 'Varela Round';
+}
