@@ -108,7 +108,7 @@ class RectChart {
       vis.xValue = d => 1;
       vis.yValue = d => {
         if(vis.config.sortBy == 'popularity'){
-          return d.trackPopularity;
+          return d.track_popularity;
         } else{
           return d.danceability;
         }
@@ -134,7 +134,7 @@ renderVis() {
   
   //render circles onto chart
   const rectangles = vis.chart.selectAll('.bar')
-      .data(vis.filteredData, d => d.danceability)
+      .data(vis.filteredData, d => d.track_id)
       .join('rect')
       .attr('class', 'bar')
       .attr('x', 0)
@@ -156,7 +156,7 @@ renderVis() {
           .html(`
             <div class="tooltip-bold">Artist: ${d.artist_name} </div>
             <div class="tooltip-bold">Song: ${d.track_name} </div>
-            <div class="tooltip-text">Popularity (0-99): ${d.trackPopularity}</div>
+            <div class="tooltip-text">Popularity (0-99): ${d.track_popularity}</div>
             <div class="tooltip-text">Atrribute (0-1): ${d.danceability} </div>
           `);
       })
