@@ -7,10 +7,19 @@ d3.csv('data/playlist_2010to2022.csv').then(data => {
       d.year = +d.year;
       d.danceability = +d.danceability;
       // Optional: other data preprocessing steps
+
+      d.artistPopularity = +d.artist_popularity;
+      d.energy = +d.energy;
+      d.speechiness = +d.speechiness;
+      d.instrumentalness = +d.instrumentalness;
     });
     
     rectChart = new RectChart({
       parentElement: '#rectangle-chart' 
+    }, data);
+
+    spiderChart = new SpiderChart({
+      parentElement: "#spider-chart"
     }, data);
 
   });
