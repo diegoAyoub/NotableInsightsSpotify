@@ -11,7 +11,7 @@ class RectChart {
         containerWidth: 260,
         containerHeight: 720,
         margin: {
-          top: 30,
+          top: 60,
           right: 15,
           bottom: 20,
           left: 30
@@ -39,7 +39,7 @@ class RectChart {
       
       vis.colorScale = d3.scaleLinear()
           .domain([0,1])
-          .range(['lightgreen', 'darkgreen']);
+          .range(['#ffffff', '#7733ff']);
       
       vis.xAxis = d3.axisBottom(vis.xScale);
   
@@ -72,32 +72,41 @@ class RectChart {
       
   
       // axis titles
+      // vis.chart.append('text')
+      //     .attr('class', 'axis-title')
+      //     .attr('y', vis.height)
+      //     .attr('x', 0)
+      //     .attr('dy', 30)
+      //     .attr('dx',0)
+      //     .style('text-anchor', 'start')
+      //     .text('Accuracy');
+  
       vis.chart.append('text')
           .attr('class', 'axis-title')
-          .attr('y', vis.height)
           .attr('x', 0)
-          .attr('dy', 30)
-          .attr('dx',0)
-          .style('text-anchor', 'start')
-          .text('Accuracy');
+          .attr('y', 0)
+          .attr('dy',-40)
+          .attr('dx', -15)
+          .attr('text-anchor', 'start')
+          .text('Songs by Attribute and Popularity');
   
-      // vis.chart.append('text')
-      //     .attr('class', 'axis-title')
-      //     .attr('x', 0)
-      //     .attr('y', 0)
-      //     .attr('dy',0)
-      //     .attr('dx', -15)
-      //     .attr('text-anchor', 'start')
-      //     .text('Age');
-  
-      // vis.chart.append('text')
-      //     .attr('class', 'axis-title')
-      //     .attr('x', vis.width)
-      //     .attr('y', vis.height)
-      //     .attr('dy',0)
-      //     .attr('dx', -150)
-      //     .attr('text-anchor', 'start')
-      //     .text('GDP per Capita (US$)');
+      vis.chart.append('text')
+          .attr('class', 'axis-title')
+          .attr('x', 0)
+          .attr('y', 0)
+          .attr('dy',-22)
+          .attr('dx', 25)
+          .attr('text-anchor', 'start')
+          .text('Year Selected: 2021');
+      
+      vis.chart.append('text')
+        .attr('class', 'axis-title')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('dy',-7)
+        .attr('dx', 0)
+        .attr('text-anchor', 'start')
+        .text('Attribute Selected: Danceability');
       
     vis.updateVis();
     
@@ -112,8 +121,10 @@ class RectChart {
       vis.xValue = d => 1;
       vis.yValue = d => d.trackPopularity;
       vis.filteredData = vis.data.filter(d => d.year == 2021);
+      console.log(vis.filteredData.length);
       vis.colorVal = d => d.danceability;
-      vis.uniqueYears = vis.filteredData.map(vis.yValue).filter(vis.uniqueFilter);
+      // vis.uniqueYears = vis.filteredData.map(vis.yValue).filter(vis.uniqueFilter);
+      vis.uniqueYears = vis.filteredData.map(vis.yValue);
       console.log(vis.uniqueYears.sort((a, b) => a - b));
       vis.yScale.domain(vis.uniqueYears.sort((a,b) => a - b));
       
@@ -129,13 +140,14 @@ renderVis() {
       .data(vis.filteredData, d => d.trackPopularity)
       .join('rect')
       .attr('class', 'bar')
-      // .attr('x', d => vis.xScale(vis.xValue(d)))
-      .attr('x', d => vis.xScale.bandwidth()/2)
+      .attr('x', 0)
       .attr('width', vis.xScale.bandwidth())
       .attr('height', vis.yScale.bandwidth())
       .attr('y', d => vis.yScale(vis.yValue(d)))
       .attr('fill', d => vis.colorScale(vis.colorVal(d)))
-      .attr('stroke-width', 3);
+      .attr('stroke-width', 1)
+      .attr('stroke', 'black');
+
 
   //update axis
   vis.xAxisG
