@@ -2,7 +2,7 @@
 let rectChart;
 d3.csv('data/playlist_2010to2022.csv').then(data => {
     data.forEach(d => {
-
+      d.track_id = +d.track_id;
       d.track_popularity = +d.track_popularity;
       d.year = +d.year;
       d.danceability = +d.danceability;
