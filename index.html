@@ -6,12 +6,38 @@
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>    
+<body>
+        
     <!-- Add HTML content, SVG drawing area, ... -->
-    <div><svg id = "rectangle-chart"> </svg> </div>
+
+    <div class = 'container'>
+
+        <div><svg id = "rectangle-chart"> </svg> </div>
+        <!-- tooltip -->
+        <div id="tooltip"></div>
+    
+        Sort by: 
+        <select id="sort-selector">
+            <option value="popularity">popularity</option>
+            <option value="attribute">attribute</option>
+        </select>
+
+    
+
+
+    </div>
+
+    
+
+
+
+    
+
     <!-- <div id="chart"></div> -->
     <!-- D3 bundle -->
     <script src="js/d3.v6.min.js"></script>
+
+    
 
     <!-- Our JS code -->
     <script src="js/main.js"></script>
