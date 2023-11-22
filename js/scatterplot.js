@@ -64,7 +64,7 @@ class Scatterplot {
             .attr('height', vis.config.containerHeight + 100);
 
         vis.chart = vis.svg.append('g')
-            .attr('transform', `translate(${vis.config.margin.left + 40},${vis.config.margin.top + 50})`);
+            .attr('transform', `translate(${vis.config.margin.left + 50},${vis.config.margin.top + 50})`);
 
         vis.xAxisG = vis.chart.append('g')
             .attr('class', 'axis x-axis')

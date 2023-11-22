@@ -27,7 +27,6 @@ class Barchart {
         vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
 
         vis.svg = d3.select(vis.config.parentElement)
-            .append("svg")
             .attr("width", vis.config.containerWidth)
             .attr("height", vis.config.containerHeight)
             .append("g")
