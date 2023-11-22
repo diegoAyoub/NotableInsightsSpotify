@@ -63,30 +63,23 @@ class Scatterplot {
             .attr('width', vis.config.containerWidth + 50)
             .attr('height', vis.config.containerHeight + 100);
 
-        // Append group element that will contain our actual chart
-        // and position it according to the given margin config
         vis.chart = vis.svg.append('g')
             .attr('transform', `translate(${vis.config.margin.left + 40},${vis.config.margin.top + 50})`);
 
-        // Append empty x-axis group and move it to the bottom of the chart
         vis.xAxisG = vis.chart.append('g')
             .attr('class', 'axis x-axis')
             .attr('transform', `translate(0,${vis.height})`);
-
-        // Append y-axis group
         vis.yAxisG = vis.chart.append('g')
             .attr('class', 'axis y-axis');
-
-        // Append axis titles
         vis.svg.append('text')
             .attr('class', 'axis-title')
-            .attr('transform', `translate(${(vis.width + 50)/2},${vis.height + vis.config.margin.top + 100})`)
+            .attr('transform', `translate(${(vis.width + 50) / 2},${vis.height + vis.config.margin.top + 100})`)
             .style('text-anchor', 'middle')
             .text('Tempo');
 
         vis.svg.append('text')
             .attr('class', 'axis-title')
-            .attr('transform', `translate(${-vis.config.margin.left + 50},${(vis.height+50)/2}) rotate(-90)`)
+            .attr('transform', `translate(${-vis.config.margin.left + 50},${(vis.height + 50) / 2}) rotate(-90)`)
             .style('text-anchor', 'middle')
             .text('Key');
 
@@ -96,16 +89,6 @@ class Scatterplot {
             .attr('fill', 'none')  // No fill, only border
             .attr('stroke', 'black')  // Border color
             .attr('stroke-width', 1);  // Border width
-
-// // Add the path using this helper function
-//         vis.svg.append('rectangle')
-//             .attr('x', 100)
-//             .attr('y', 100)
-//             .attr('width',100)
-//             .attr('height', 50)
-//             .attr('stroke', 'black')
-//             .attr('fill', '#69a3b2');
-
     }
 
 
@@ -177,5 +160,4 @@ class Scatterplot {
             .call(vis.yAxis)
             .call(g => g.select('.domain').remove());
     }
-
 }
