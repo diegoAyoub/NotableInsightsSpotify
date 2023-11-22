@@ -1,5 +1,5 @@
 const parseTime = d3.timeParse("%Y-%m-%d");
-let initial_data, timeline, rectChart, scatterplot;
+let initial_data, timeline, rectChart, scatterplot, spiderChart;
 
 d3.csv('data/spotify_playlist.csv').then(data => {
   initial_data = data.forEach(d => {
@@ -16,6 +16,8 @@ d3.csv('data/spotify_playlist.csv').then(data => {
     d.valence = +d.valence;
     d.tempo = +d.tempo;
     d.key = +d.key;
+    d.artistPopularity = +d.artist_popularity;
+    d.liveness = +d.liveness;
   });
   
   // barChart = new Barchart({
@@ -33,6 +35,10 @@ d3.csv('data/spotify_playlist.csv').then(data => {
         parentElement: '#scatterplot',
     }, data);
     scatterplot.updateVis();
+    
+    spiderChart = new SpiderChart({
+      parentElement: "#spider-chart"
+    }, data);
 });
 
 // Event listeners for interactivity, if needed
@@ -48,5 +54,3 @@ d3.select('#sort-selector').on('change', function() {
     scatterplot.config.sortBy = sortBy;
     scatterplot.updateVis();
 });
-
-  
