@@ -19,7 +19,7 @@ class SpiderChart {
   drawChart() {
     let data = [];
     let features = [
-      "Popularity",
+      "Liveness",
       "Danceability",
       "Energy",
       "Speechiness",
@@ -32,6 +32,9 @@ class SpiderChart {
 
     // A's popularity: 86
     // B's popularity: 75
+
+    // A's liveness: 0.234
+    // B's liveness: 0.612
 
     // A's danceability: 0.429
     // B's danceability: 0.434
@@ -46,40 +49,33 @@ class SpiderChart {
     // B's instrumentalness: 0
 
     //generate the data
-    // for (var i = 0; i < 2; i++) {
-    //   var point = {};
-    //   //each feature will be a random number from 1-9
-    //   features.forEach((f) => (point[f] = 1 + Math.random() * 8));
-    //   data.push(point);
-    // }
-    // console.log(data);
 
     for (let i = 0; i < 2; i++) {
       const point = { artist: i === 0 ? "Coldplay" : "blink-182" };
 
       // Assign specific values for each feature
-      point[features[0].toLowerCase()] = i === 0 ? 86 : 75; // Popularity
-      point[features[1].toLowerCase()] = i === 0 ? 0.429 : 0.434; // Danceability
-      point[features[2].toLowerCase()] = i === 0 ? 0.661 : 0.897; // Energy
-      point[features[3].toLowerCase()] = i === 0 ? 0.0281 : 0.0488; // Speechiness
-      point[features[4].toLowerCase()] = i === 0 ? 0.000121 : 0; // Instrumentalness
+      point[features[0]] = i === 0 ? 0.234 : 0.612; // Liveness
+      point[features[1]] = i === 0 ? 0.429 : 0.434; // Danceability
+      point[features[2]] = i === 0 ? 0.661 : 0.897; // Energy
+      point[features[3]] = i === 0 ? 0.0281 : 0.0488; // Speechiness
+      point[features[4]] = i === 0 ? 0.121 : 0.232; // Instrumentalness
 
       data.push(point);
     }
-    // This for loop doesn't work right now
 
+    console.log(features);
     console.log(data);
 
     let width = 800;
-    let height = 600;
+    let height = 500;
     let svg = d3
       .select("body")
       .append("svg")
       .attr("width", width)
       .attr("height", height);
 
-    let radialScale = d3.scaleLinear().domain([0, 10]).range([0, 250]);
-    let ticks = [2, 4, 6, 8, 10];
+    let radialScale = d3.scaleLinear().domain([0, 1]).range([0, 150]);
+    let ticks = [0.2, 0.4, 0.6, 0.8, 1.0];
 
     svg
       .selectAll("circle")
@@ -111,8 +107,8 @@ class SpiderChart {
       return {
         name: f,
         angle: angle,
-        line_coord: angleToCoordinate(angle, 10),
-        label_coord: angleToCoordinate(angle, 10.5),
+        line_coord: angleToCoordinate(angle, 1),
+        label_coord: angleToCoordinate(angle, 1.05),
       };
     });
 
@@ -178,5 +174,14 @@ class SpiderChart {
           .attr("stroke-opacity", 1)
           .attr("opacity", 0.5)
       );
+
+    svg
+      .append("text")
+      .attr("x", width / 2)
+      .attr("y", this.config.margin.top / 2)
+      .attr("text-anchor", "middle")
+      .style("font-size", "18px")
+      .style("font-weight", "bold")
+      .text("Coldplay (#86 popular) vs blink-182 (#75 popular)");
   }
 }

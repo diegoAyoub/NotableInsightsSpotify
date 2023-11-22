@@ -9,6 +9,7 @@ d3.csv('data/playlist_2010to2022.csv').then(data => {
       // Optional: other data preprocessing steps
 
       d.artistPopularity = +d.artist_popularity;
+      d.liveness = +d.liveness;
       d.energy = +d.energy;
       d.speechiness = +d.speechiness;
       d.instrumentalness = +d.instrumentalness;
