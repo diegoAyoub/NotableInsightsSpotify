@@ -60,7 +60,7 @@ class RectChart {
 
         //append group element containing chart
         vis.chart = vis.svg.append('g')
-            .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top - 40})`);
+          .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
 
         // Append empty x-axis group and move it to the bottom of the chart
         vis.xAxisG = vis.chart.append('g')
@@ -76,7 +76,7 @@ class RectChart {
             .attr('class', 'axis-title')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('dy', -40)
+          .attr('dy',-40)
             .attr('dx', -15)
             .attr('text-anchor', 'start')
             .text('Songs by Attribute and Popularity');
@@ -85,7 +85,7 @@ class RectChart {
             .attr('class', 'axis-title')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('dy', -22)
+          .attr('dy',-22)
             .attr('dx', 25)
             .attr('text-anchor', 'start')
             .text(`Year Selected: ${vis.config.selectedYear}`);
@@ -94,7 +94,7 @@ class RectChart {
             .attr('class', 'axis-title')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('dy', -7)
+        .attr('dy',-7)
             .attr('dx', 0)
             .attr('text-anchor', 'start')
             .text(`Attribute Selected: ${vis.config.selectedAttribute}`);
@@ -107,9 +107,9 @@ class RectChart {
         let vis = this;
         vis.xValue = d => 1;
         vis.yValue = d => {
-            if (vis.config.sortBy == 'popularity') {
-                return d.track_popularity;
-            } else {
+        if(vis.config.sortBy == 'popularity'){
+          return d.trackPopularity;
+        } else{
                 return d.danceability;
             }
         }
@@ -120,10 +120,10 @@ class RectChart {
         vis.uniqueYears = vis.filteredData.map(vis.yValue);
         console.log(vis.uniqueYears.sort((a, b) => a - b));
 
-        if (vis.config.sortBy == 'popularity') {
-            vis.yScale.domain(vis.uniqueYears.sort((a, b) => a - b));
-        } else {
-            vis.yScale.domain(vis.filteredData.map(vis.colorVal).sort((a, b) => a - b));
+      if(vis.config.sortBy == 'popularity'){
+        vis.yScale.domain(vis.uniqueYears.sort((a,b) => a - b));
+      } else{
+        vis.yScale.domain(vis.filteredData.map(vis.colorVal).sort((a,b) => a - b));
         }
         vis.renderVis();
 
@@ -134,7 +134,7 @@ class RectChart {
 
         //render circles onto chart
         const rectangles = vis.chart.selectAll('.bar')
-            .data(vis.filteredData, d => d.track_id)
+      .data(vis.filteredData, d => d.danceability)
             .join('rect')
             .attr('class', 'bar')
             .attr('x', 0)
@@ -148,7 +148,7 @@ class RectChart {
         // Tooltip mouseover event
 
         rectangles
-            .on('mouseover', (event, d) => {
+      .on('mouseover', (event,d) => {
                 d3.select('#tooltip')
                     .style('display', 'block')
                     .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')
@@ -156,7 +156,7 @@ class RectChart {
                     .html(`
             <div class="tooltip-bold">Artist: ${d.artist_name} </div>
             <div class="tooltip-bold">Song: ${d.track_name} </div>
-            <div class="tooltip-text">Popularity (0-99): ${d.track_popularity}</div>
+            <div class="tooltip-text">Popularity (0-99): ${d.trackPopularity}</div>
             <div class="tooltip-text">Atrribute (0-1): ${d.danceability} </div>
           `);
             })
