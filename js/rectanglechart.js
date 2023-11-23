@@ -27,6 +27,7 @@ class RectChart {
 
     initVis() {
         let vis = this;
+      // Todo: Create SVG area, chart, initialize scales and axes, add titles, etc
         vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
         vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
         //Initialize Scales
