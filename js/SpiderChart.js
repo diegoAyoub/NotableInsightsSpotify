@@ -2,8 +2,8 @@ class SpiderChart {
   constructor(_config, data) {
     this.config = {
       parentElement: _config.parentElement,
-      containerWidth: 200,
-      containerHeight: 200,
+      containerWidth: 500,
+      containerHeight: 500,
       margin: {
         top: 60,
         right: 15,
@@ -66,13 +66,15 @@ class SpiderChart {
     console.log(features);
     console.log(data);
 
-    let width = 800;
+    let width = 450;
     let height = 500;
+
     let svg = d3
-      .select("body")
-      .append("svg")
+      .select('body')
+      .select(this.config.parentElement)
       .attr("width", width)
-      .attr("height", height);
+      .attr("height", height)
+      .attr("transform", `translate(0, 25)`);
 
     let radialScale = d3.scaleLinear().domain([0, 1]).range([0, 150]);
     let ticks = [0.2, 0.4, 0.6, 0.8, 1.0];

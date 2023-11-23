@@ -54,7 +54,7 @@ class RectChart {
 
         //append group element containing chart
         vis.chart = vis.svg.append('g')
-            .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+            .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top - 40})`);
 
         // Append empty x-axis group and move it to the bottom of the chart
         vis.xAxisG = vis.chart.append('g')
