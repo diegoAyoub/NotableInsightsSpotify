@@ -4,6 +4,7 @@ class RectChart {
      * Class constructor with basic chart configuration
      * @param {Object}
      */
+    // Todo: Add or remove parameters from the constructor as needed
     constructor(_config, data) {
         this.config = {
             parentElement: _config.parentElement,
