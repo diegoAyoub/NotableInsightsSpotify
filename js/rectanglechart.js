@@ -40,7 +40,7 @@ class RectChart {
             .paddingInner(0.1);
 
         vis.colorScale = d3.scaleLinear()
-            .domain([0, 1])
+          .domain([0,1])
             .range(['#ffffff', '#7733ff']);
 
         vis.xAxis = d3.axisBottom(vis.xScale)
