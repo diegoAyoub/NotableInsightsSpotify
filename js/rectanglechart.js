@@ -8,10 +8,14 @@ class RectChart {
     constructor(_config, data) {
         this.config = {
             parentElement: _config.parentElement,
-            colorScale: _config.colorScale,
-            containerWidth: _config.containerWidth || 260,
-            containerHeight: _config.containerHeight || 400,
-            margin: _config.margin || {top: 100, right: 20, bottom: 20, left: 40},
+        containerWidth: 260,
+        containerHeight: 720,
+        margin: {
+          top: 60,
+          right: 15,
+          bottom: 20,
+          left: 30
+        },
             tooltipPadding: 5,
             selectedAttribute: 'danceability',
             selectedYear: '2021',
