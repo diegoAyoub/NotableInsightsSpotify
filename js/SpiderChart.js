@@ -13,6 +13,7 @@ class SpiderChart {
       tooltipPadding: 5,
     };
     this.data = data;
+    this.selectedArtists = [];
     this.drawChart();
   }
 
