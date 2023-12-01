@@ -1,5 +1,5 @@
 class SpiderChart {
-  constructor(_config, data) {
+  constructor(_config, _data) {
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: 500,
@@ -12,22 +12,25 @@ class SpiderChart {
       },
       tooltipPadding: 5,
     };
-    this.data = data;
+    this.data = _data;
     this.selectedArtists = [];
     this.drawChart();
   }
 
   drawChart() {
-    let data = [];
+    let artistData = [];
     let features = [
-      "Liveness",
-      "Danceability",
-      "Energy",
-      "Speechiness",
-      "Instrumentalness",
+      "liveness",
+      "danceability",
+      "energy",
+      "speechiness",
+      "instrumentalness",
     ];
 
     // Sample Data:
+    // Note to self: artist_name and artist_popularity are supposed to be the same.
+    // But for other attributes, take the mean.
+
     // Artist A: Coldplay
     // Artist B: blink-182
 
@@ -50,28 +53,42 @@ class SpiderChart {
     // B's instrumentalness: 0
 
     //generate the data
+    console.log(this.selectedArtists); // this is printing stuff correctly
+    // this.selectedArtists = ["Coldplay", "blink-182"];
+    console.log(this.data[0].artist_name);
+    console.log(d3.mean(this.data.filter(d => d.artist_name === this.selectedArtists[0]).map(d => d.energy)));
 
-    for (let i = 0; i < 2; i++) {
-      const point = { artist: i === 0 ? "Coldplay" : "blink-182" };
+    this.selectedArtists.forEach (artist => {
+    // for (let i = 0; i < 2; i++) {
+      const point = { artist: artist };
+      // const point = { artist: i === 0 ? this.selectedArtists[0] : this.selectedArtists[1] };
 
       // Assign specific values for each feature
-      point[features[0]] = i === 0 ? 0.234 : 0.612; // Liveness
-      point[features[1]] = i === 0 ? 0.429 : 0.434; // Danceability
-      point[features[2]] = i === 0 ? 0.661 : 0.897; // Energy
-      point[features[3]] = i === 0 ? 0.0281 : 0.0488; // Speechiness
-      point[features[4]] = i === 0 ? 0.121 : 0.232; // Instrumentalness
+      point[features[0]] = d3.mean(this.data.filter(d => d.artist_name === artist).map(d => d[features[0].toLowerCase()]));
+      point[features[1]] = d3.mean(this.data.filter(d => d.artist_name === artist).map(d => d[features[1].toLowerCase()]));
+      point[features[2]] = d3.mean(this.data.filter(d => d.artist_name === artist).map(d => d[features[2].toLowerCase()]));
+      point[features[3]] = d3.mean(this.data.filter(d => d.artist_name === artist).map(d => d[features[3].toLowerCase()]));
+      point[features[4]] = d3.mean(this.data.filter(d => d.artist_name === artist).map(d => d[features[4].toLowerCase()]));
 
-      data.push(point);
+
+      // point[features[0]] = i === 0 ? 0.234 : 0.612; // Liveness
+      // point[features[1]] = i === 0 ? 0.429 : 0.434; // Danceability
+      // point[features[2]] = i === 0 ? 0.661 : 0.897; // Energy
+      // point[features[3]] = i === 0 ? 0.0281 : 0.0488; // Speechiness
+      // point[features[4]] = i === 0 ? 0.121 : 0.232; // Instrumentalness
+
+      artistData.push(point);
     }
+    );
 
-    console.log(features);
-    console.log(data);
+    // console.log(features);
+    console.log(artistData);
 
     let width = 450;
     let height = 500;
 
     let svg = d3
-      .select('body')
+      .select("body")
       .select(this.config.parentElement)
       .attr("width", width)
       .attr("height", height)
@@ -165,7 +182,7 @@ class SpiderChart {
 
     svg
       .selectAll("path")
-      .data(data)
+      .data(artistData)
       .join((enter) =>
         enter
           .append("path")
@@ -185,6 +202,11 @@ class SpiderChart {
       .attr("text-anchor", "middle")
       .style("font-size", "18px")
       .style("font-weight", "bold")
-      .text("Coldplay (#86 popular) vs blink-182 (#75 popular)");
+      .text(
+        artistData[0]["artist"] +
+          "(#86 popular) vs " +
+          artistData[1]["artist"] +
+          "(#75 popular)"
+      );
   }
 }
