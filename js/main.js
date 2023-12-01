@@ -1,16 +1,8 @@
 const parseTime = d3.timeParse("%Y-%m-%d");
 let initial_data, timeline, rectChart, scatterplot, spiderChart;
 
-<<<<<<< HEAD
-let rectChart;
-d3.csv('data/playlist_2010to2022.csv').then(data => {
-    data.forEach(d => {
-      d.track_id = +d.track_id;
-      d.track_popularity = +d.track_popularity;
-=======
   d3.csv('data/spotify_playlist.csv').then(data => {
     initial_data = data.forEach(d => {
->>>>>>> main
       d.year = +d.year;
       d.trackPopularity = +d.track_popularity;
       d.date = +d.date;
