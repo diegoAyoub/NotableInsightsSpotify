@@ -21,7 +21,7 @@
 
 .y_axis_barchart_right {
     font-size: 20px;
-    color: #99ca3c;
+    color: #9d94ff;
 }
 
 .y_axis_barchart_right .domain {
@@ -34,13 +34,14 @@
 
 .legend-text {
     font-family: 'Varela Round';
+    font-size: 20px;
 }
 
 body {
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 13px;
     padding: 30px;
-    background: #f7f7f7;
+    background: #ffffff;
 }
 
 

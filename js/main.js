@@ -22,7 +22,7 @@ let initial_data, timeline, rectChart, scatterplot, spiderChart;
   
     barChart = new Barchart({
       parentElement: '#bar-chart',
-      songAttributes: ["danceability", "liveliness", "energy", "acousticness", "instrumentalness", "valence", "tempo", "speechiness"]
+      songAttributes: ["danceability", "liveness", "energy", "acousticness", "instrumentalness", "valence", "tempo", "speechiness"]
     }, data);
 
     rectChart = new RectChart({

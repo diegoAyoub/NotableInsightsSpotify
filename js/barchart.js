@@ -6,7 +6,7 @@ class Barchart {
             legendX: 50,
             legendY: -75,
             legendRadius: 10,
-            containerWidth: 2000,
+            containerWidth: 2500,
             containerHeight: 700,
             margin: {
                 top: 100,
@@ -14,7 +14,7 @@ class Barchart {
                 bottom: 30,
                 left: 40
             },
-            color: ["#f26b21", "#f78e31", "#fbb040", "#fcec52", "#cbdb47", "#99ca3c", "#208b3a"]
+            color: ["#ff6961", "#ffb480", "#f8f38d", "#42d6a4", "#08cad1", "#59adf6", "#9d94ff", '#c780e8']
         }
         this.data = _data;
         this.initVis();
@@ -56,8 +56,7 @@ class Barchart {
         
         vis.bars = d3.scaleBand()
             .domain(xbars)
-            .range([0, vis.xScale.bandwidth()])
-            .padding(0.05)
+            .range([15, vis.xScale.bandwidth()-15])
 
         // adding colours
         vis.color = d3.scaleOrdinal()
@@ -172,7 +171,7 @@ class Barchart {
 
     renderLegend() {
         let vis = this;
-        let attribute1 = ["danceability", "liveliness", "energy", "acousticness"]
+        let attribute1 = ["danceability", "liveness", "energy", "acousticness"]
         let attribute2 = ["instrumentalness", "valence", "tempo", "speechiness"]
 
         const yLegendScale1 = d3.scaleBand()
