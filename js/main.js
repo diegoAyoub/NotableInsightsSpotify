@@ -1,5 +1,7 @@
 const parseTime = d3.timeParse("%Y-%m-%d");
 let initial_data, timeline, rectChart, scatterplot, spiderChart;
+const dispatcher = d3.dispatch('filterArtists');
+let selectedArtists = [];
 
   d3.csv('data/spotify_playlist.csv').then(data => {
     initial_data = data.forEach(d => {
@@ -33,7 +35,7 @@ let initial_data, timeline, rectChart, scatterplot, spiderChart;
     // Initialize Scatterplot
     scatterplot = new Scatterplot({
         parentElement: '#scatterplot',
-    }, data);
+    }, data, dispatcher);
     scatterplot.updateVis();
     
     spiderChart = new SpiderChart({
@@ -53,4 +55,12 @@ d3.select('#sort-selector').on('change', function() {
     // Update Scatterplot if it has similar sorting functionality
     scatterplot.config.sortBy = sortBy;
     scatterplot.updateVis();
+});
+
+dispatcher.on('filterArtists', (selectedArtists) => {
+  console.log(selectedArtists);
+  spiderChart.selectedArtists = selectedArtists;
+  spiderChart.drawChart();
+  scatterplot.updateVis();
+
 });
