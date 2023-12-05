@@ -117,8 +117,7 @@ class RectChart {
             }
         }
         vis.filteredData = vis.data.filter(d => d.year == 2021);
-        console.log(vis.filteredData.length);
-        vis.colorVal = d => d.danceability;
+        vis.colorVal = d => d[vis.config.selectedAttribute];
         vis.uniqueYears = vis.filteredData;
 
         if(vis.config.sortBy == 'popularity'){
@@ -173,8 +172,8 @@ class RectChart {
                     .html(`
             <div class="tooltip-bold">Artist: ${d.artist_name} </div>
             <div class="tooltip-bold">Song: ${d.track_name} </div>
-            <div class="tooltip-text">Popularity (0-99): ${d.trackPopularity}</div>
-            <div class="tooltip-text">Atrribute (0-1): ${d.danceability} </div>
+            <div class="tooltip-text">popularity (0-99): ${d.trackPopularity}</div>
+            <div class="tooltip-text">${vis.config.selectedAttribute} (0-1): ${d[vis.config.selectedAttribute]} </div>
           `);
             })
             .on('mouseleave', () => {
