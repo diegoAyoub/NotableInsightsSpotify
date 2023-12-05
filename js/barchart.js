@@ -108,6 +108,7 @@ class Barchart {
             .attr("transform", `translate(${vis.config.legendX},${vis.config.legendY})`)
 
         vis.updateVis(vis.selectedYears);
+        vis.renderLegend();
     }
 
     updateVis(selectedYears) {
@@ -196,7 +197,6 @@ class Barchart {
                 })
         }
 
-        vis.renderLegend();
     }
 
     renderToolTip(d, event, vis) {
@@ -267,7 +267,10 @@ class Barchart {
                     .attr('opacity', 1)
             })
 
-        legendGroupEnter.append('text')
+        const text = vis.legend.selectAll('.legend-groups')
+            .data(vis.config.songAttributes)
+            .join('g')
+            .append('text')
             .attr('class', 'legend-text')
             .attr('y', d => attribute1.includes(d)? yLegendScale1(d): yLegendScale2(d))
             .attr('x', d => attribute1.includes(d) ? 15 : 165)
