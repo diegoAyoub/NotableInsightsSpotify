@@ -70,10 +70,10 @@ class Scatterplot {
 
     vis.radiusScale = d3
       .scaleSqrt()
-      //   .domain(d3.extent(vis.data, (d) => d.track_popularity))
-      .domain([0, 100])
-      .range([1.0, 9.0]);
-    //   .range([15.0, 1.0]);
+      .domain(d3.extent(vis.data, (d) => d.track_popularity))
+      // .domain([0, 100])
+      .range([0.5, 8.0]);
+    // .range([15.0, 1.0]);
 
     vis.yAxis = d3
       .axisLeft(vis.yScale)
@@ -180,12 +180,19 @@ class Scatterplot {
       .attr("stroke", "black") // Outline color
       .attr("stroke-width", function (d) {
         if (vis.selectedArtists.includes(d.artist_name)) {
-          return 0.4;
+          return 1.5;
         } else {
           return 0.2;
         }
       })
-      .attr("fill", (d) => vis.colorScale(vis.colorValue(d))); // Fill color based on year
+      .attr("fill", function (d) {
+        if (vis.selectedArtists.includes(d.artist_name)) {
+          return "#FFF300"; // Point becomes yellow when selected
+        } else {
+          return vis.colorScale(vis.colorValue(d));
+        }
+      }); // Fill color based on year
+    // .attr("fill", (d) => vis.colorScale(vis.colorValue(d))); // Fill color based on year
 
     // Tooltip event listeners
     circles
