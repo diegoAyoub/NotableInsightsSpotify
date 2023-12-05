@@ -59,10 +59,10 @@ d3.select('#sort-selector').on('change', function() {
     scatterplot.updateVis();
 });
 
-function filterRectangleChart(attr) { //@TODO ADD YEAR LATER
+function filterRectangleChart(attr, yr) { //@TODO ADD YEAR LATER
   //update filter and then rectchart after click on bar chart
-  
-  rectFilter = {attribute: attr, year: 2021};
+
+  rectFilter = {attribute: attr, year: yr};
   rectChart.updateVis();
 
 }

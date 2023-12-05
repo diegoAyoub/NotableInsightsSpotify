@@ -112,3 +112,18 @@ h1 {
 .bar.active {
     fill: rgb(47, 88, 121)
 }
+
+.rectchartlegend-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+  }
+
+.rectchartlegend {
+    width: 200px;
+    height: 20px;
+    background: linear-gradient(to right, #ffffff, #7733ff);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }

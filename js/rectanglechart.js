@@ -82,20 +82,20 @@ class RectChart {
             .attr('text-anchor', 'start')
             .text('Songs by Attribute and Popularity');
 
-        vis.chart.append('text')
-            .attr('class', 'axis-title')
+        vis.yearSubtitle = vis.chart.append('text')
+            .attr('class', 'axis-subtitle-year')
             .attr('x', 0)
             .attr('y', 0)
-          .attr('dy',-22)
+            .attr('dy',-22)
             .attr('dx', 25)
             .attr('text-anchor', 'start')
             .text(`Year Selected: ${vis.config.selectedYear}`);
 
-        vis.chart.append('text')
-            .attr('class', 'axis-title')
+        vis.attributeSubtitle = vis.chart.append('text')
+            .attr('class', 'axis-subtitle-attr')
             .attr('x', 0)
             .attr('y', 0)
-        .attr('dy',-7)
+            .attr('dy',-7)
             .attr('dx', 0)
             .attr('text-anchor', 'start')
             .text(`Attribute Selected: ${vis.config.selectedAttribute}`);
@@ -116,7 +116,7 @@ class RectChart {
                 return d[vis.config.selectedAttribute];
             }
         }
-        vis.filteredData = vis.data.filter(d => d.year == 2021);
+        vis.filteredData = vis.data.filter(d => d.year == vis.config.selectedYear);
         vis.colorVal = d => d[vis.config.selectedAttribute];
         vis.uniqueYears = vis.filteredData;
 
@@ -129,25 +129,14 @@ class RectChart {
 
         vis.yScale.domain(vis.filteredData.map(d => d.track_id));
         vis.yAxis.tickFormat(d => '' + (vis.filteredData.find(v => v.track_id == d)).trackPopularity);
-    
-        //vis.sortedData = vis.filteredData.map(vis.yValue).sort((a,b) => a - b);
-        console.log(vis.sortedData);
-      
-        //console.log(vis.filteredData.sort((a, b) => a.trackPopularity - b.trackPopularity));
-
-    //   if(vis.config.sortBy == 'popularity'){
-    //     // vis.yScale.domain(vis.filteredData.map(vis.yValue).sort((a,b) => a.trackPopularity - b.trackPopularity));
-    //     vis.yScale.domain(vis.filteredData.map(vis.yValue).sort((a,b) => a.trackPopularity - b.trackPopularity));
-    //   } else{
-    //     vis.yScale.domain(vis.filteredData.map(vis.yValue).sort((a,b) => a.danceability - b.danceability));
-    //     }
+        
+        vis.attributeSubtitle.text(`Year Selected: ${vis.config.selectedYear}`);
+        vis.yearSubtitle.text(`Attribute Selected: ${vis.config.selectedAttribute}`);
         vis.renderVis();
-
     }
 
     renderVis() {
         let vis = this;
-
         //render circles onto chart
         const rectangles = vis.chart.selectAll('.bar')
       .data(vis.filteredData, d => d.track_id)

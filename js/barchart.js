@@ -142,7 +142,8 @@ class Barchart {
 
         var bars = yearGroupEnter.selectAll('.category-bars')
             .data(function(d) {
-                let subgroups = groups.map(function(key) { return {key: key, value: d[1][0][key]} })
+                console.log(d[0]);
+                let subgroups = groups.map(function(key) { return {key: key, value: d[1][0][key], year: d[0]} })
                 subgroups = subgroups.filter(function(d) { return vis.config.songAttributes.includes(d.key) })
                 return subgroups
             } )
@@ -165,15 +166,7 @@ class Barchart {
                 vis.svg.selectAll(vis.selectNonMatchingAttributes(d.key))
                     .attr('opacity', 1)
             }).on('click', function(event, d) {
-                console.log(d);
-                // const isActive = genderFilter.includes(d[0]);
-                // if (isActive) {
-                //   genderFilter = genderFilter.filter(f => f !== d[0]); // Remove filter
-                // } else {
-                //   genderFilter = [d[0]];
-                // }
-                filterRectangleChart(d.key); // Call global function to update scatter plot and lexischart
-                // bars.classed('active', d => genderFilter.includes(d[0]));
+                filterRectangleChart(d.key, d.year); // Call global function in main to update rectchart
               });
 
             
