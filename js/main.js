@@ -1,5 +1,6 @@
 const parseTime = d3.timeParse("%Y-%m-%d");
 let initial_data, timeline, rectChart, scatterplot, spiderChart;
+let rectFilter;
 
   d3.csv('data/spotify_playlist.csv').then(data => {
     initial_data = data.forEach(d => {
@@ -18,6 +19,7 @@ let initial_data, timeline, rectChart, scatterplot, spiderChart;
       d.key = +d.key;
       d.artistPopularity = +d.artist_popularity;
       d.liveness = +d.liveness;
+    
     });
   
     barChart = new Barchart({
@@ -25,6 +27,8 @@ let initial_data, timeline, rectChart, scatterplot, spiderChart;
       songAttributes: ["danceability", "liveness", "energy", "acousticness", "instrumentalness", "valence", "tempo", "speechiness"]
     }, data);
 
+    //Initializing Rectangle chart
+    rectFilter = {attribute: 'danceability', year: 2021};
     rectChart = new RectChart({
         parentElement: '#rectangle-chart',
     }, data);
@@ -54,3 +58,11 @@ d3.select('#sort-selector').on('change', function() {
     scatterplot.config.sortBy = sortBy;
     scatterplot.updateVis();
 });
+
+function filterRectangleChart(attr) { //@TODO ADD YEAR LATER
+  //update filter and then rectchart after click on bar chart
+  
+  rectFilter = {attribute: attr, year: 2021};
+  rectChart.updateVis();
+
+}

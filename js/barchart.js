@@ -164,7 +164,19 @@ class Barchart {
                 // turn opacity of all bars to 1
                 vis.svg.selectAll(vis.selectNonMatchingAttributes(d.key))
                     .attr('opacity', 1)
-            });
+            }).on('click', function(event, d) {
+                console.log(d);
+                // const isActive = genderFilter.includes(d[0]);
+                // if (isActive) {
+                //   genderFilter = genderFilter.filter(f => f !== d[0]); // Remove filter
+                // } else {
+                //   genderFilter = [d[0]];
+                // }
+                filterRectangleChart(d.key); // Call global function to update scatter plot and lexischart
+                // bars.classed('active', d => genderFilter.includes(d[0]));
+              });
+
+            
 
             vis.renderLegend();
     }

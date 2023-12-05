@@ -17,8 +17,8 @@ class RectChart {
           left: 30
         },
             tooltipPadding: 5,
-            selectedAttribute: 'danceability',
-            selectedYear: '2021',
+            selectedAttribute: rectFilter.attribute,
+            selectedYear: rectFilter.year,
             sortBy: 'popularity'
         }
         this.data = data;
@@ -51,7 +51,8 @@ class RectChart {
             .tickSize(1)
             .ticks(5)
             .tickSizeOuter(0)
-            .tickPadding(10);
+            .tickPadding(10)
+            .tickFormat(d => d);
 
         //define drawing area size
         vis.svg = d3.select(vis.config.parentElement)
@@ -105,26 +106,42 @@ class RectChart {
 
     updateVis() {
         let vis = this;
+        vis.config.selectedAttribute = rectFilter.attribute;
+        vis.config.selectedYear = rectFilter.year;
         vis.xValue = d => 1;
         vis.yValue = d => {
         if(vis.config.sortBy == 'popularity'){
           return d.trackPopularity;
         } else{
-                return d.danceability;
+                return d[vis.config.selectedAttribute];
             }
         }
         vis.filteredData = vis.data.filter(d => d.year == 2021);
         console.log(vis.filteredData.length);
         vis.colorVal = d => d.danceability;
-        // vis.uniqueYears = vis.filteredData.map(vis.yValue).filter(vis.uniqueFilter);
-        vis.uniqueYears = vis.filteredData.map(vis.yValue);
-        console.log(vis.uniqueYears.sort((a, b) => a - b));
+        vis.uniqueYears = vis.filteredData;
 
-      if(vis.config.sortBy == 'popularity'){
-        vis.yScale.domain(vis.uniqueYears.sort((a,b) => a - b));
-      } else{
-        vis.yScale.domain(vis.filteredData.map(vis.colorVal).sort((a,b) => a - b));
+        if(vis.config.sortBy == 'popularity'){
+            // vis.yScale.domain(vis.filteredData.map(vis.yValue).sort((a,b) => a.trackPopularity - b.trackPopularity));
+            vis.sortedData = vis.filteredData.sort((a,b) => a.trackPopularity - b.trackPopularity);
+          } else{
+            vis.sortedData = vis.filteredData.sort((a,b) => a[vis.config.selectedAttribute] - b[vis.config.selectedAttribute]);
         }
+
+        vis.yScale.domain(vis.filteredData.map(d => d.track_id));
+        vis.yAxis.tickFormat(d => '' + (vis.filteredData.find(v => v.track_id == d)).trackPopularity);
+    
+        //vis.sortedData = vis.filteredData.map(vis.yValue).sort((a,b) => a - b);
+        console.log(vis.sortedData);
+      
+        //console.log(vis.filteredData.sort((a, b) => a.trackPopularity - b.trackPopularity));
+
+    //   if(vis.config.sortBy == 'popularity'){
+    //     // vis.yScale.domain(vis.filteredData.map(vis.yValue).sort((a,b) => a.trackPopularity - b.trackPopularity));
+    //     vis.yScale.domain(vis.filteredData.map(vis.yValue).sort((a,b) => a.trackPopularity - b.trackPopularity));
+    //   } else{
+    //     vis.yScale.domain(vis.filteredData.map(vis.yValue).sort((a,b) => a.danceability - b.danceability));
+    //     }
         vis.renderVis();
 
     }
@@ -134,13 +151,13 @@ class RectChart {
 
         //render circles onto chart
         const rectangles = vis.chart.selectAll('.bar')
-      .data(vis.filteredData, d => d.danceability)
+      .data(vis.filteredData, d => d.track_id)
             .join('rect')
             .attr('class', 'bar')
             .attr('x', 0)
             .attr('width', vis.xScale.bandwidth())
             .attr('height', vis.yScale.bandwidth())
-            .attr('y', d => vis.yScale(vis.yValue(d)))
+            .attr('y', d => vis.yScale(d.track_id))
             .attr('fill', d => vis.colorScale(vis.colorVal(d)))
             .attr('stroke-width', 1)
             .attr('stroke', 'black');

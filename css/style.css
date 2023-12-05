@@ -104,3 +104,11 @@ h1 {
 .legend-btn.inactive {
     opacity: 0.5;
 }
+
+/* barchart stuff */
+.bar:hover {
+    stroke: #333;
+  }
+.bar.active {
+    fill: rgb(47, 88, 121)
+}
