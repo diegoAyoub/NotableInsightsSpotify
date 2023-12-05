@@ -33,6 +33,7 @@
 
 .legend-text {
     font-family: 'Varela Round';
+    color: #dcdcdc;
     font-size: 20px;
 }
 
@@ -102,4 +103,14 @@ h1 {
 
 .legend-btn.inactive {
     opacity: 0.5;
+}
+
+.tooltip-bold {
+    font-size: 25px;
+    font-weight: 200;
+}
+
+.tooltip-text {
+    font-size: 20px;
+    font-weight: 200;
 }
