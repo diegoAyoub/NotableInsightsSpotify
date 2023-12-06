@@ -1,6 +1,6 @@
 class Scatterplot {
     /**
-     * Class constructor with basic chart configuration
+     * Class constructor for scatterplot, used to represent keys and tempor of music
      * @param _config
      * @param _data
      * @param _dispatcher

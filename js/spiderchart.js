@@ -71,11 +71,11 @@ class SpiderChart {
         let vis = this;
         let artistData = [];
         let features = [
-            "liveness",
-            "danceability",
-            "energy",
-            "speechiness",
-            "instrumentalness",
+            "Liveness",
+            "Danceability",
+            "Energy",
+            "Speechiness",
+            "Instrumentalness",
         ];
 
         this.selectedArtists.forEach((artist) => {
@@ -114,11 +114,49 @@ class SpiderChart {
 
         let featureData = features.map((f, i) => {
             let angle = Math.PI / 2 + (2 * Math.PI * i) / features.length;
+            if (f === 'Danceability') {
+                return {
+                    name: f,
+                    angle: angle,
+                    line_coord: angleToCoordinate(angle, 1),
+                    label_coord_x: angleToCoordinate(angle, 1.53),
+                    label_coord_y: angleToCoordinate(angle, 0.90),
+                }
+            }
+            if (f === 'Energy') {
+                return {
+                    name: f,
+                    angle: angle,
+                    line_coord: angleToCoordinate(angle, 1),
+                    label_coord_x: angleToCoordinate(angle, 1.45),
+                    label_coord_y: angleToCoordinate(angle, 1.15),
+                }
+            }
+            if (f === 'Speechiness') {
+                return {
+                    name: f,
+                    angle: angle,
+                    line_coord: angleToCoordinate(angle, 1),
+                    label_coord_x: angleToCoordinate(angle, 1.25),
+                    label_coord_y: angleToCoordinate(angle, 1.25),
+                }
+            }
+            if (f === 'Instrumentalness') {
+                return {
+                    name: f,
+                    angle: angle,
+                    line_coord: angleToCoordinate(angle, 1),
+                    label_coord_x: angleToCoordinate(angle, 1.05),
+                    label_coord_y: angleToCoordinate(angle, 0.95),
+                }
+            }
             return {
                 name: f,
                 angle: angle,
                 line_coord: angleToCoordinate(angle, 1),
-                label_coord: angleToCoordinate(angle, 1.05),
+                label_coord_x: angleToCoordinate(angle, 1.05),
+                label_coord_y: angleToCoordinate(angle, 1.05),
+
             };
         });
 
@@ -149,8 +187,8 @@ class SpiderChart {
             .join("text")
             .attr("class", "axislabel")
             .style("font-size", "18px")
-            .attr("x", (d) => d.label_coord.x - 30)
-            .attr("y", (d) => d.label_coord.y - 10)
+            .attr("x", (d) => d.label_coord_x.x - 30)
+            .attr("y", (d) => d.label_coord_y.y - 10)
             .text((d) => d.name);
 
         let line = d3
