@@ -62,7 +62,8 @@ d3.select('#sort-selector').on('change', function() {
 
 dispatcher.on('filterArtists', (selectedArtists) => {
   spiderChart.selectedArtists = selectedArtists;
-  spiderChart.drawChart();
+  spiderChart.updateVis();
+  scatterplot.updateVis();
   scatterplot.updateVis(selectedYears);
 });
 
