@@ -53,6 +53,7 @@ class SpiderChart {
         enter
           .append("text")
           .attr("class", "ticklabel")
+          .style("font-size", "18px")
           .attr("x", vis.width / 2 + 5)
           .attr("y", (d) => vis.height / 2 - radialScale(d))
           .text((d) => d.toString())
@@ -147,15 +148,16 @@ class SpiderChart {
       .data(featureData, (d) => d.name)
       .join("text")
       .attr("class", "axislabel")
-      .attr("x", (d) => d.label_coord.x)
-      .attr("y", (d) => d.label_coord.y)
+      .style("font-size", "18px")
+      .attr("x", (d) => d.label_coord.x - 30)
+      .attr("y", (d) => d.label_coord.y - 10)
       .text((d) => d.name);
 
     let line = d3
       .line()
       .x((d) => d.x)
       .y((d) => d.y);
-    let colors = ["darkorange", "navy"];
+    let colors = ["crimson", "slateblue"];
 
     function getPathCoordinates(data_point) {
       let coordinates = [];
@@ -211,9 +213,9 @@ class SpiderChart {
         .attr("x", vis.width / 2)
         .attr("y", (d, i) => i * 10 + this.config.margin.top / 2)
         .attr("text-anchor", "middle")
-        .style("font-size", "18px")
+        .style("font-size", "19px")
         .style("font-weight", "bold")
-        .style("fill", "darkorange")
+        .style("fill", "crimson")
         .text((d) => d.artist + " (Popularity Score: " + meanPopularity + ")");
     }
 
@@ -238,9 +240,9 @@ class SpiderChart {
         .attr("x", vis.width / 2)
         .attr("y", (d, i) => i * 10 + this.config.margin.top / 2)
         .attr("text-anchor", "middle")
-        .style("font-size", "18px")
+        .style("font-size", "19px")
         .style("font-weight", "bold")
-        .style("fill", (d, i) => (i === 0 ? "darkorange" : "navy"))
+        .style("fill", (d, i) => (i === 0 ? "crimson" : "slateblue"))
         .text((d, i) => {
           if (i == 0) {
             return d.artist + " (Popularity Score: " + meanPopularity1 + ")";
@@ -249,22 +251,6 @@ class SpiderChart {
               "vs. " + d.artist + " (Popularity Score: " + meanPopularity2 + ")"
             );
           }
-        })
-        .on("mouseover", (event, d) => {
-          const [x, y] = d3.pointer(event);
-          d3
-            .select("#tooltip")
-            .style("display", "block")
-            .style("left", x + this.config.tooltipPadding + "px")
-            .style("top", y + this.config.tooltipPadding + "px").html(`
-                      <div class="tooltip-title">${d.artist}</div>
-                      <ul>
-                          <li>Popularity: ${meanPopularity1}</li>
-                      </ul>
-                  `);
-        })
-        .on("mouseleave", () => {
-          d3.select("#tooltip").style("display", "none");
         });
     }
   }
