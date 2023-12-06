@@ -18,6 +18,7 @@ Sources and Acknowledgements:
     - "how can I add a border to my graph"
     - "how do i add border to my legend" (border: 1px solid grey;)
     - "how do i add stroke colour in d3"
+    - Used to help me add comments and toggle filter
 - (4) Used the scatterplot from tutorial to help me figure out how to start and other details.
 - (5) This is the database that was used in the project
 
