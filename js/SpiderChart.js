@@ -22,7 +22,7 @@ class SpiderChart {
 
     vis.width = 550;
     vis.height = 500;
-    
+
     vis.svg = d3
       .select("body")
       .select(this.config.parentElement)
@@ -259,11 +259,11 @@ class SpiderChart {
             .style("display", "block")
             .style("left", x + this.config.tooltipPadding + "px")
             .style("top", y + this.config.tooltipPadding + "px").html(`
-                    <div class="tooltip-title">${d.artist}</div>
-                    <ul>
-                        <li>Popularity: ${meanPopularity1}</li>
-                    </ul>
-                `);
+                      <div class="tooltip-title">${d.artist}</div>
+                      <ul>
+                          <li>Popularity: ${meanPopularity1}</li>
+                      </ul>
+                  `);
         })
         .on("mouseleave", () => {
           d3.select("#tooltip").style("display", "none");
@@ -271,4 +271,3 @@ class SpiderChart {
     }
   }
 }
-
