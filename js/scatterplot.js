@@ -314,6 +314,15 @@ class Scatterplot {
             vis.dispatcher.call("filterArtists", event, vis.selectedArtists);
         });
 
+        vis.svg.on("click", function (event) {
+
+          if (event.target.id === "scatterplot") {
+              vis.selectedArtists = [];
+              vis.dispatcher.call('filterArtists', event, vis.selectedArtists);
+          }
+          vis.dispatcher.call('filterArtists', event, vis.selectedArtists);
+      });
+
         // Update the axes/gridlines
         vis.xAxisG.call(vis.xAxis).call((g) => g.select(".domain").remove());
         vis.yAxisG.call(vis.yAxis).call((g) => g.select(".domain").remove());

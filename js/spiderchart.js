@@ -22,7 +22,7 @@ class SpiderChart {
 
     vis.width = 550;
     vis.height = 500;
-    
+
     vis.svg = d3
       .select("body")
       .select(this.config.parentElement)
@@ -184,10 +184,10 @@ class SpiderChart {
 
     if (artistData.length == 0) {
       const title = vis.svg
-        .selectAll(".titleText")
+        .selectAll(".spiderchart-title")
         .data(artistData, (d) => d.artist)
         .join("text")
-        .attr("class", "titleText")
+        .attr("class", "spiderchart-title")
         .attr("x", vis.width / 2)
         .attr("y", (d, i) => i * 10 + this.config.margin.top / 2)
         .attr("text-anchor", "middle")
@@ -204,10 +204,10 @@ class SpiderChart {
       );
 
       const title = vis.svg
-        .selectAll(".titleText")
+        .selectAll(".spiderchart-title")
         .data(artistData, (d) => d.artist)
         .join("text")
-        .attr("class", "titleText")
+        .attr("class", "spiderchart-title")
         .attr("x", vis.width / 2)
         .attr("y", (d, i) => i * 10 + this.config.margin.top / 2)
         .attr("text-anchor", "middle")
@@ -231,11 +231,10 @@ class SpiderChart {
       );
 
       const title = vis.svg
-        .selectAll(".titleText")
+        .selectAll(".spiderchart-title")
         .data(artistData, (d) => d.artist)
-        // svg
         .join("text")
-        .attr("class", "titleText")
+        .attr("class", "spiderchart-title")
         .attr("x", vis.width / 2)
         .attr("y", (d, i) => i * 10 + this.config.margin.top / 2)
         .attr("text-anchor", "middle")
@@ -258,11 +257,11 @@ class SpiderChart {
             .style("display", "block")
             .style("left", x + this.config.tooltipPadding + "px")
             .style("top", y + this.config.tooltipPadding + "px").html(`
-                    <div class="tooltip-title">${d.artist}</div>
-                    <ul>
-                        <li>Popularity: ${meanPopularity1}</li>
-                    </ul>
-                `);
+                      <div class="tooltip-title">${d.artist}</div>
+                      <ul>
+                          <li>Popularity: ${meanPopularity1}</li>
+                      </ul>
+                  `);
         })
         .on("mouseleave", () => {
           d3.select("#tooltip").style("display", "none");
@@ -270,4 +269,3 @@ class SpiderChart {
     }
   }
 }
-
