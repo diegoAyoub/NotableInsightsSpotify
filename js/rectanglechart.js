@@ -9,7 +9,7 @@ class RectChart {
         this.config = {
             parentElement: _config.parentElement,
         containerWidth: 260,
-        containerHeight: 720,
+        containerHeight: 1200,
         margin: {
           top: 60,
           right: 15,
@@ -40,7 +40,7 @@ class RectChart {
             .paddingInner(0.1);
 
         vis.colorScale = d3.scaleLinear()
-          .domain([0,1])
+            .domain([0,1])
             .range(['#ffffff', '#7733ff']);
 
         vis.xAxis = d3.axisBottom(vis.xScale)
@@ -52,7 +52,7 @@ class RectChart {
             .ticks(5)
             .tickSizeOuter(0)
             .tickPadding(10)
-            .tickFormat(d => d);
+            .tickFormat(d => '');
 
         //define drawing area size
         vis.svg = d3.select(vis.config.parentElement)
@@ -72,31 +72,49 @@ class RectChart {
         vis.yAxisG = vis.chart.append('g')
             .attr('class', 'axis y-axis')
             .attr('transform', `translate(0,0)`);
-
+        
         vis.chart.append('text')
-            .attr('class', 'axis-title')
+            .attr('class', 'rectchart-subtitle axis-label')
             .attr('x', 0)
             .attr('y', 0)
-          .attr('dy',-40)
-            .attr('dx', -15)
+            .attr('dy',10)
+            .attr('dx', -30)
+            .attr('text-anchor', 'start')
+            .text('Low');
+        
+        vis.chart.append('text')
+            .attr('class', 'rectchart-subtitle axis-label')
+            .attr('x', 0)
+            .attr('y', vis.height)
+            .attr('dy',0)
+            .attr('dx', -30)
+            .attr('text-anchor', 'start')
+            .text('High');
+
+        vis.chart.append('text')
+            .attr('class', 'rectchart-axis-title')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('dy',-40)
+            .attr('dx', -10)
             .attr('text-anchor', 'start')
             .text('Songs by Attribute and Popularity');
 
         vis.yearSubtitle = vis.chart.append('text')
-            .attr('class', 'axis-subtitle-year')
+            .attr('class', 'rectchart-subtitle year')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('dy',-22)
-            .attr('dx', 25)
+            .attr('dy',-21)
+            .attr('dx', 35)
             .attr('text-anchor', 'start')
             .text(`Year Selected: ${vis.config.selectedYear}`);
 
         vis.attributeSubtitle = vis.chart.append('text')
-            .attr('class', 'axis-subtitle-attr')
+            .attr('class', 'rectchart-subtitle attr')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('dy',-7)
-            .attr('dx', 0)
+            .attr('dy',-5)
+            .attr('dx', 6)
             .attr('text-anchor', 'start')
             .text(`Attribute Selected: ${vis.config.selectedAttribute}`);
 
@@ -128,10 +146,19 @@ class RectChart {
         }
 
         vis.yScale.domain(vis.filteredData.map(d => d.track_id));
-        vis.yAxis.tickFormat(d => '' + (vis.filteredData.find(v => v.track_id == d)).trackPopularity);
+        //vis.yAxis.tickFormat(d => '' + (vis.filteredData.find(v => v.track_id == d)).trackPopularity);
         
-        vis.attributeSubtitle.text(`Year Selected: ${vis.config.selectedYear}`);
-        vis.yearSubtitle.text(`Attribute Selected: ${vis.config.selectedAttribute}`);
+        vis.yearSubtitle.text(`Year Selected: ${vis.config.selectedYear}`);
+        vis.attributeSubtitle.text(`Attribute Selected: ${vis.config.selectedAttribute}`);
+
+        if(vis.config.selectedAttribute == 'tempo' ){
+            var colorExtent = d3.extent(vis.filteredData.map(d => d.tempo));
+            // vis.colorScale.domain(colorExtent);
+            vis.colorScale.domain([60,211]);
+
+        } else{
+            vis.colorScale.domain([0, 1]);
+        }
         vis.renderVis();
     }
 
@@ -162,7 +189,7 @@ class RectChart {
             <div class="tooltip-bold">Artist: ${d.artist_name} </div>
             <div class="tooltip-bold">Song: ${d.track_name} </div>
             <div class="tooltip-text">popularity (0-99): ${d.trackPopularity}</div>
-            <div class="tooltip-text">${vis.config.selectedAttribute} (0-1): ${d[vis.config.selectedAttribute]} </div>
+            <div class="tooltip-text">${vis.config.selectedAttribute}): ${d[vis.config.selectedAttribute]} </div>
           `);
             })
             .on('mouseleave', () => {

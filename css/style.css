@@ -113,6 +113,11 @@ h1 {
     fill: rgb(47, 88, 121)
 }
 
+.container-rectchart{
+    display: flex;
+    align-items: center;
+}
+
 .rectchartlegend-container {
     display: flex;
     justify-content: space-between;
@@ -127,3 +132,12 @@ h1 {
     border: 1px solid #ccc;
     border-radius: 5px;
   }
+
+.rectchart-axis-title{
+    font-size: 15px;
+}
+
+.rectchart-subtitle{
+    font-size: 13px
+}
+
