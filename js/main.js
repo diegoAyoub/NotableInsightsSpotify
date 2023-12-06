@@ -63,9 +63,9 @@ d3.select('#sort-selector').on('change', function() {
 });
 
 dispatcher.on('filterArtists', (selectedArtists) => {
-  console.log(selectedArtists);
   spiderChart.selectedArtists = selectedArtists;
-  spiderChart.drawChart();
+  // spiderChart.drawChart();
+  spiderChart.updateVis();
   scatterplot.updateVis();
 
 });

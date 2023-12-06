@@ -6,18 +6,68 @@ class SpiderChart {
       containerHeight: 500,
       margin: {
         top: 60,
-        right: 15,
+        right: 0,
         bottom: 20,
-        left: 30,
+        left: 0,
       },
       tooltipPadding: 5,
     };
     this.data = _data;
     this.selectedArtists = [];
-    this.drawChart();
+    this.initVis();
   }
 
-  drawChart() {
+  initVis() {
+    let vis = this;
+
+    vis.width = 550;
+    vis.height = 500;
+    
+    vis.svg = d3
+      .select("body")
+      .select(this.config.parentElement)
+      .attr("width", vis.width)
+      .attr("height", vis.height)
+      .attr("transform", `translate(0, 25)`);
+
+    let radialScale = d3.scaleLinear().domain([0, 1]).range([0, 150]);
+    let ticks = [0.2, 0.4, 0.6, 0.8, 1.0];
+
+    vis.svg
+      .selectAll("circle")
+      .data(ticks)
+      .join((enter) =>
+        enter
+          .append("circle")
+          .attr("cx", vis.width / 2)
+          .attr("cy", vis.height / 2)
+          .attr("fill", "none")
+          .attr("stroke", "gray")
+          .attr("r", (d) => radialScale(d))
+      );
+
+    vis.svg
+      .selectAll(".ticklabel")
+      .data(ticks)
+      .join((enter) =>
+        enter
+          .append("text")
+          .attr("class", "ticklabel")
+          .attr("x", vis.width / 2 + 5)
+          .attr("y", (d) => vis.height / 2 - radialScale(d))
+          .text((d) => d.toString())
+      );
+
+    vis.updateVis();
+  }
+
+  updateVis() {
+    let vis = this;
+    vis.renderVis();
+  }
+
+  renderVis() {
+    let vis = this;
     let artistData = [];
     let features = [
       "liveness",
@@ -26,15 +76,6 @@ class SpiderChart {
       "speechiness",
       "instrumentalness",
     ];
-
-    console.log(this.data[0].artist_name);
-    console.log(
-      d3.mean(
-        this.data
-          .filter((d) => d.artist_name === this.selectedArtists[0])
-          .map((d) => d.artist_popularity)
-      )
-    );
 
     this.selectedArtists.forEach((artist) => {
       const point = { artist: artist };
@@ -68,46 +109,7 @@ class SpiderChart {
       artistData.push(point);
     });
 
-    console.log("artistData is...");
-    console.log(artistData);
-
-    let width = 550;
-    let height = 500;
-
-    let svg = d3
-      .select("body")
-      .select(this.config.parentElement)
-      .attr("width", width)
-      .attr("height", height)
-      .attr("transform", `translate(0, 25)`);
-
     let radialScale = d3.scaleLinear().domain([0, 1]).range([0, 150]);
-    let ticks = [0.2, 0.4, 0.6, 0.8, 1.0];
-
-    svg
-      .selectAll("circle")
-      .data(ticks)
-      .join((enter) =>
-        enter
-          .append("circle")
-          .attr("cx", width / 2)
-          .attr("cy", height / 2)
-          .attr("fill", "none")
-          .attr("stroke", "gray")
-          .attr("r", (d) => radialScale(d))
-      );
-
-    svg
-      .selectAll(".ticklabel")
-      .data(ticks)
-      .join((enter) =>
-        enter
-          .append("text")
-          .attr("class", "ticklabel")
-          .attr("x", width / 2 + 5)
-          .attr("y", (d) => height / 2 - radialScale(d))
-          .text((d) => d.toString())
-      );
 
     let featureData = features.map((f, i) => {
       let angle = Math.PI / 2 + (2 * Math.PI * i) / features.length;
@@ -122,18 +124,18 @@ class SpiderChart {
     function angleToCoordinate(angle, value) {
       let x = Math.cos(angle) * radialScale(value);
       let y = Math.sin(angle) * radialScale(value);
-      return { x: width / 2 + x, y: height / 2 - y };
+      return { x: vis.width / 2 + x, y: vis.height / 2 - y };
     }
 
     // draw axis line
-    svg
+    vis.svg
       .selectAll("line")
       .data(featureData)
       .join((enter) =>
         enter
           .append("line")
-          .attr("x1", width / 2)
-          .attr("y1", height / 2)
+          .attr("x1", vis.width / 2)
+          .attr("y1", vis.height / 2)
           .attr("x2", (d) => d.line_coord.x)
           .attr("y2", (d) => d.line_coord.y)
           .attr("stroke", "black")
@@ -141,7 +143,7 @@ class SpiderChart {
 
     // draw axis label
     // Note: The text for attributes are getting overwritten. Fix this.
-    svg
+    vis.svg
       .selectAll(".axislabel")
       .data(featureData, (d) => d.name)
       .join("text")
@@ -166,7 +168,7 @@ class SpiderChart {
       return coordinates;
     }
 
-    svg
+    vis.svg
       .selectAll("path")
       .data(artistData)
       .join((enter) =>
@@ -181,20 +183,13 @@ class SpiderChart {
           .attr("opacity", 0.5)
       );
 
-    if (artistData.length > 0) {
-      // Print out the artist of the first element
-      console.log(artistData[0].artist);
-    } else {
-      console.log("The array is empty.");
-    }
-
     if (artistData.length == 0) {
-      const title = svg
+      const title = vis.svg
         .selectAll(".titleText")
         .data(artistData, (d) => d.artist)
         .join("text")
         .attr("class", "titleText")
-        .attr("x", width / 2)
+        .attr("x", vis.width / 2)
         .attr("y", (d, i) => i * 10 + this.config.margin.top / 2)
         .attr("text-anchor", "middle")
         .style("font-size", "18px")
@@ -209,12 +204,12 @@ class SpiderChart {
           .map((d) => d.artist_popularity)
       );
 
-      const title = svg
+      const title = vis.svg
         .selectAll(".titleText")
         .data(artistData, (d) => d.artist)
         .join("text")
         .attr("class", "titleText")
-        .attr("x", width / 2)
+        .attr("x", vis.width / 2)
         .attr("y", (d, i) => i * 10 + this.config.margin.top / 2)
         .attr("text-anchor", "middle")
         .style("font-size", "18px")
@@ -236,13 +231,13 @@ class SpiderChart {
           .map((d) => d.artist_popularity)
       );
 
-      const title = svg
+      const title = vis.svg
         .selectAll(".titleText")
         .data(artistData, (d) => d.artist)
         // svg
         .join("text")
         .attr("class", "titleText")
-        .attr("x", width / 2)
+        .attr("x", vis.width / 2)
         .attr("y", (d, i) => i * 10 + this.config.margin.top / 2)
         .attr("text-anchor", "middle")
         .style("font-size", "18px")
@@ -276,3 +271,4 @@ class SpiderChart {
     }
   }
 }
+
