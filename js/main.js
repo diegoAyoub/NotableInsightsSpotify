@@ -1,9 +1,7 @@
-const parseTime = d3.timeParse("%Y-%m-%d");
-let initial_data, timeline, rectChart, scatterplot, spiderChart;
+let initial_data, rectChart, scatterplot, spiderChart;
 const dispatcher = d3.dispatch('filterArtists');
 const yearDispatcher = d3.dispatch('yearChanged');
 let selectedYears = [];
-let selectedArtists = [];
 
   d3.csv('data/spotify_playlist.csv').then(data => {
     initial_data = data.forEach(d => {
@@ -40,7 +38,7 @@ let selectedArtists = [];
     // Initialize Scatterplot
     scatterplot = new Scatterplot({
         parentElement: '#scatterplot',
-    }, data, dispatcher);
+    }, data, dispatcher, yearDispatcher, selectedYears);
     scatterplot.updateVis();
     
     spiderChart = new SpiderChart({
@@ -63,17 +61,16 @@ d3.select('#sort-selector').on('change', function() {
 });
 
 dispatcher.on('filterArtists', (selectedArtists) => {
-  console.log(selectedArtists);
   spiderChart.selectedArtists = selectedArtists;
   spiderChart.drawChart();
-  scatterplot.updateVis();
-
+  scatterplot.updateVis(selectedYears);
 });
 
 yearDispatcher.on('yearChanged', (year) => {
-
   updateSelectedYears(year);
   barChart.updateVis(selectedYears);
+  scatterplot.updateVis(selectedYears);
+  scatterplot.toggleCategory(selectedYears);
 });
 
 function updateSelectedYears(year) {
@@ -85,4 +82,4 @@ function updateSelectedYears(year) {
     selectedYears.push(year);
   }
   console.log(selectedYears);
-};
+}

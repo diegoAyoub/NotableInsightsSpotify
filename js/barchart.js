@@ -155,9 +155,9 @@ class Barchart {
             .attr('class', d => d.key + '-bars')
             .append("rect")
             .attr('x', d => vis.bars(d.key))
-            .attr('y', d => d.key == "tempo" ? vis.yScaleRight(d.value[0]) : vis.yScaleLeft(d.value[0]))
+            .attr('y', d => d.key === "tempo" ? vis.yScaleRight(d.value[0]) : vis.yScaleLeft(d.value[0]))
             .attr('width', vis.bars.bandwidth())
-            .attr('height', d => d.key == "tempo" ? vis.height - vis.yScaleRight(d.value[0]) : vis.height - vis.yScaleLeft(d.value[0]))
+            .attr('height', d => d.key === "tempo" ? vis.height - vis.yScaleRight(d.value[0]) : vis.height - vis.yScaleLeft(d.value[0]))
             .attr("fill", d => vis.color(d.key))
             .on('mouseover', function(event, d) {
                 // turn opacity of all bars to 0.25
@@ -206,7 +206,7 @@ class Barchart {
 
 
         // getting top 5 songs for that attribute and year
-        let top5Songs = vis.data.filter(d => d.year == year)
+        let top5Songs = vis.data.filter(d => d.year === year)
             .sort((a, b) => b[attribute] - a[attribute]).slice(0, 5);
 
         // create tooltip

@@ -39,7 +39,7 @@
 
 body {
     font-family: 'Noto Sans JP', sans-serif;
-    font-size: 13px;
+    font-size: 10px;
     padding: 30px;
     background: #ffffff;
 }
@@ -53,6 +53,33 @@ h1 {
 
 .axis-title {
     font-size: 1.3em;
+}
+
+.axis-title-scatterplot {
+    font-size: 2.5em;
+}
+
+.y-axis {
+    font-size: 1.8em;
+}
+
+.x-axis {
+    font-size: 1.8em;
+}
+
+.legend-rect {
+    transition: all 0.3s ease; /* Smooth transition for the style changes */
+}
+
+.legend-rect.active {
+    cursor: pointer;
+    opacity: 1; /* Full opacity for active state */
+}
+
+.legend-rect.inactive {
+    cursor: pointer;
+    opacity: 0.2; /* Lowered opacity for inactive state */
+    fill: #ccc; /* Gray color for inactive state */
 }
 
 .container {
@@ -76,7 +103,20 @@ h1 {
     font-size: 12px;
     font-weight: 500;
     padding: 8px;
-    min-width: 160px;
+    min-width: 50px;
+    color: #333;
+}
+
+#legend-tooltip {
+    position: absolute;
+    display: none;
+    background: #fff;
+    box-shadow: 3px 3px 3px 0px rgb(92 92 92 / 0.5);
+    border: 1px solid #ddd;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px;
+    min-width: 59px;
     color: #333;
 }
 
