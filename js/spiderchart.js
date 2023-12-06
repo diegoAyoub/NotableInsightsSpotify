@@ -142,7 +142,6 @@ class SpiderChart {
       );
 
     // draw axis label
-    // Note: The text for attributes are getting overwritten. Fix this.
     vis.svg
       .selectAll(".axislabel")
       .data(featureData, (d) => d.name)
