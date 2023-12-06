@@ -134,9 +134,9 @@ class Scatterplot {
             .append("rect")
             .attr("width", vis.width)
             .attr("height", vis.height)
-            .attr("fill", "none") // No fill, only border
-            .attr("stroke", "black") // Border color
-            .attr("stroke-width", 1); // Border width
+            .attr("fill", "none")
+            .attr("stroke", "black")
+            .attr("stroke-width", 1);
 
         this.colorLegend(vis); // adds legend for color with filter
     }
@@ -148,10 +148,10 @@ class Scatterplot {
         let maxYear = Math.max(...years);
 
         // Legend dimensions and position
-        let legendRectSize = 20; // Size of the legend rectangle
-        let legendSpacing = 4; // Spacing between rectangles
-        let legendX = 150; // X position of the legend
-        let legendY = 50; // Y position of the legend
+        let legendRectSize = 20;
+        let legendSpacing = 4;
+        let legendX = 150;
+        let legendY = 50;
 
         // Create a legend group
         let legend = vis.svg.selectAll('.legend')
@@ -203,12 +203,13 @@ class Scatterplot {
             .text(maxYear);
 
         vis.svg.append('text')
-            .attr('x', legendX + years.indexOf((maxYear + minYear) /2) * (legendRectSize + legendSpacing))
+            .attr('x', legendX + years.indexOf((maxYear + minYear) / 2) * (legendRectSize + legendSpacing))
             .attr('y', legendY + legendRectSize + 40)
             .style('text-anchor', 'middle')
             .style('font-size', '25px')
             .text('Click to filter');
     }
+
     toggleCategory(selectedYear) {
         let vis = this;
         // Select existing legend rectangles
@@ -246,7 +247,6 @@ class Scatterplot {
      */
     renderVis() {
         let vis = this;
-        console.log(selectedYears)
 
         vis.data = vis.selectedYears && vis.selectedYears.length &&
             vis.datacache.filter(d => vis.selectedYears.includes(d.year)) ||
@@ -316,7 +316,6 @@ class Scatterplot {
 
         // Update the axes/gridlines
         vis.xAxisG.call(vis.xAxis).call((g) => g.select(".domain").remove());
-
         vis.yAxisG.call(vis.yAxis).call((g) => g.select(".domain").remove());
     }
 }

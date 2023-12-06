@@ -81,5 +81,4 @@ function updateSelectedYears(year) {
     // Add the year to the selected years array
     selectedYears.push(year);
   }
-  console.log(selectedYears);
 }
