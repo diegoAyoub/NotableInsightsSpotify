@@ -2,6 +2,7 @@ let initial_data, rectChart, scatterplot, spiderChart;
 const dispatcher = d3.dispatch('filterArtists');
 const yearDispatcher = d3.dispatch('yearChanged');
 let selectedYears = [];
+let rectFilter;
 
   d3.csv('data/spotify_playlist.csv').then(data => {
     initial_data = data.forEach(d => {
@@ -30,6 +31,7 @@ let selectedYears = [];
       yearAttributes: yearData,
     }, data, yearDispatcher, selectedYears);
 
+    rectFilter = {attribute: 'danceability', year: 2021};
     rectChart = new RectChart({
         parentElement: '#rectangle-chart',
     }, data);
@@ -82,4 +84,11 @@ function updateSelectedYears(year) {
     // Add the year to the selected years array
     selectedYears.push(year);
   }
+}
+
+function filterRectangleChart(attr, val) { //@TODO ADD YEAR LATER
+  //update filter and then rectchart after click on bar chart
+  rectFilter = {attribute: attr, year: val[1]};
+  rectChart.updateVis();
+
 }

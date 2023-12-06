@@ -154,3 +154,32 @@ h1 {
     font-size: 20px;
     font-weight: 200;
 }
+
+/* barchart stuff */
+.container-rectchart{
+    display: flex;
+    align-items: center;
+}
+
+.rectchartlegend-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+  }
+
+.rectchartlegend {
+    width: 200px;
+    height: 20px;
+    background: linear-gradient(to right, #ffffff, #7733ff);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+.rectchart-axis-title{
+    font-size: 15px;
+}
+
+.rectchart-subtitle{
+    font-size: 13px
+}
