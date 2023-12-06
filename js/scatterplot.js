@@ -12,7 +12,7 @@ class Scatterplot {
             parentElement: _config.parentElement,
             colorScale: _config.colorScale,
             containerWidth: _config.containerWidth || 2000,
-            containerHeight: _config.containerHeight || 550,
+            containerHeight: _config.containerHeight || 600,
             margin: _config.margin || {top: 80, right: 20, bottom: 20, left: 70},
             tooltipPadding: _config.tooltipPadding || 15,
         };
@@ -75,9 +75,9 @@ class Scatterplot {
             .domain(d3.extent(vis.data, (d) => d.year));
 
         vis.radiusScale = d3
-            .scaleLinear()
+            .scaleRadial()
             .domain(d3.extent(vis.data, (d) => d.trackPopularity))
-            .range([25.0, 1.0]);
+            .range([1.0, 20.0]);
 
         vis.yAxis = d3
             .axisLeft(vis.yScale)
@@ -139,6 +139,65 @@ class Scatterplot {
             .attr("stroke-width", 1);
 
         this.colorLegend(vis); // adds legend for color with filter
+        this.sizeLegend()// adds legend for circle size
+    }
+
+    sizeLegend() {
+        let vis = this
+
+        // Assuming you have an SVG container with a width and height
+
+        // Coordinates and sizes
+        let x = this.config.containerWidth - 300;
+        let y = 50;
+        let smallCircle = 5;
+        let mediumCircle = 12;
+        let largeCircle = 20;
+        let spaceBetweenCircles = 200;
+
+
+        // Draw small circle
+        vis.svg.append('circle')
+            .attr('cx', x)
+            .attr('cy', y)
+            .attr('r', smallCircle)
+            .style('fill', "#4f3cff")
+            .style('opacity', '0.8')
+            .style('stroke', 'black');
+
+        // Draw medium circle
+        vis.svg.append('circle')
+            .attr('cx', x + mediumCircle + smallCircle + spaceBetweenCircles / 2)
+            .attr('cy', y - 5)
+            .attr('r', mediumCircle)
+            .style('fill', "#4f3cff")
+            .style('opacity', '0.8')
+            .style('stroke', 'black');
+
+
+        // Draw large circle
+        vis.svg.append('circle')
+            .attr('cx', x + smallCircle + largeCircle + spaceBetweenCircles + 10)
+            .attr('cy', y - 10)
+            .attr('r', largeCircle)
+            .style('fill', "#4f3cff")
+            .style('opacity', '0.8')
+            .style('stroke', 'black');
+
+        // Draw bracket line under the circles
+        let bracketLineStartX = x - 5;
+        let bracketLineEndX = x + smallCircle + largeCircle + spaceBetweenCircles + largeCircle + 5;
+        vis.svg.append('path')
+            .attr('d', `M ${bracketLineStartX} ${y + largeCircle + 5} h ${bracketLineEndX - bracketLineStartX} M ${bracketLineStartX} ${y + largeCircle + 5} v -5 M ${bracketLineEndX} ${y + largeCircle + 5} v -5`)
+            .style('stroke', 'black');
+
+        // Add text label
+        vis.svg.append('text')
+            .attr('x', x + (largeCircle + spaceBetweenCircles) / 2 + 10)
+            .attr('y', y + largeCircle + 35)
+            .style('text-anchor', 'middle')
+            .style('font-size', '20px')
+            .text('Popularity');
     }
 
     colorLegend(vis) {
@@ -316,12 +375,12 @@ class Scatterplot {
 
         vis.svg.on("click", function (event) {
 
-          if (event.target.id === "scatterplot") {
-              vis.selectedArtists = [];
-              vis.dispatcher.call('filterArtists', event, vis.selectedArtists);
-          }
-          vis.dispatcher.call('filterArtists', event, vis.selectedArtists);
-      });
+            if (event.target.id === "scatterplot") {
+                vis.selectedArtists = [];
+                vis.dispatcher.call('filterArtists', event, vis.selectedArtists);
+            }
+            vis.dispatcher.call('filterArtists', event, vis.selectedArtists);
+        });
 
         // Update the axes/gridlines
         vis.xAxisG.call(vis.xAxis).call((g) => g.select(".domain").remove());
