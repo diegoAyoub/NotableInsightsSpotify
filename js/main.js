@@ -1,6 +1,8 @@
 const parseTime = d3.timeParse("%Y-%m-%d");
 let initial_data, timeline, rectChart, scatterplot, spiderChart;
 const dispatcher = d3.dispatch('filterArtists');
+const yearDispatcher = d3.dispatch('yearChanged');
+let selectedYears = [];
 let selectedArtists = [];
 
   d3.csv('data/spotify_playlist.csv').then(data => {
@@ -21,11 +23,14 @@ let selectedArtists = [];
       d.artistPopularity = +d.artist_popularity;
       d.liveness = +d.liveness;
     });
+
+    let yearData = data.map(d => d.year).filter((v, i, a) => a.indexOf(v) === i);
   
     barChart = new Barchart({
       parentElement: '#bar-chart',
-      songAttributes: ["danceability", "liveliness", "energy", "acousticness", "instrumentalness", "valence", "tempo", "speechiness"]
-    }, data);
+      songAttributes: ["danceability", "liveness", "energy", "acousticness", "valence", "tempo", "speechiness"],
+      yearAttributes: yearData,
+    }, data, yearDispatcher, selectedYears);
 
     rectChart = new RectChart({
         parentElement: '#rectangle-chart',
@@ -64,3 +69,20 @@ dispatcher.on('filterArtists', (selectedArtists) => {
   scatterplot.updateVis();
 
 });
+
+yearDispatcher.on('yearChanged', (year) => {
+
+  updateSelectedYears(year);
+  barChart.updateVis(selectedYears);
+});
+
+function updateSelectedYears(year) {
+  // If the selected years array already includes the year, remove it
+  if (selectedYears.includes(year)) {
+    selectedYears = selectedYears.filter(k => k !== year);
+  } else {
+    // Add the year to the selected years array
+    selectedYears.push(year);
+  }
+  console.log("Current selected years" + selectedYears);
+};

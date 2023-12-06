@@ -20,7 +20,7 @@
 
 .y_axis_barchart_right {
     font-size: 20px;
-    color: #99ca3c;
+    color: #9d94ff;
 }
 
 .y_axis_barchart_right .domain {
@@ -33,13 +33,15 @@
 
 .legend-text {
     font-family: 'Varela Round';
+    color: #dcdcdc;
+    font-size: 20px;
 }
 
 body {
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 13px;
     padding: 30px;
-    background: #f7f7f7;
+    background: #ffffff;
 }
 
 
@@ -101,4 +103,14 @@ h1 {
 
 .legend-btn.inactive {
     opacity: 0.5;
+}
+
+.tooltip-bold {
+    font-size: 25px;
+    font-weight: 200;
+}
+
+.tooltip-text {
+    font-size: 20px;
+    font-weight: 200;
 }

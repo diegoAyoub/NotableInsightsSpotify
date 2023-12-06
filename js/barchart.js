@@ -1,21 +1,25 @@
 class Barchart {
-    constructor(_config, _data) {
+    constructor(_config, _data, _dispatcher, _selectedYears) {
         this.config = {
             parentElement: _config.parentElement,
             songAttributes: _config.songAttributes,
+            yearAttributes: _config.yearAttributes,
             legendX: 50,
             legendY: -75,
             legendRadius: 10,
-            containerWidth: 2000,
+            containerWidth: 2500,
             containerHeight: 700,
+            tooltipPadding: 5,
             margin: {
                 top: 100,
                 right: 40,
                 bottom: 30,
                 left: 40
             },
-            color: ["#f26b21", "#f78e31", "#fbb040", "#fcec52", "#cbdb47", "#99ca3c", "#208b3a"]
+            color: ["#ff6961", "#ffb480", "#f8f38d", "#42d6a4", "#59adf6", "#9d94ff", '#c780e8']
         }
+        this.dispatcher = _dispatcher;
+        this.selectedYears = _selectedYears;
         this.data = _data;
         this.initVis();
     }
@@ -56,8 +60,7 @@ class Barchart {
         
         vis.bars = d3.scaleBand()
             .domain(xbars)
-            .range([0, vis.xScale.bandwidth()])
-            .padding(0.05)
+            .range([15, vis.xScale.bandwidth()-15])
 
         // adding colours
         vis.color = d3.scaleOrdinal()
@@ -104,11 +107,14 @@ class Barchart {
             .attr("class", "legend")
             .attr("transform", `translate(${vis.config.legendX},${vis.config.legendY})`)
 
-        vis.updateVis();
+        vis.updateVis(vis.selectedYears);
+        vis.renderLegend();
     }
 
-    updateVis() {
+    updateVis(selectedYears) {
         let vis = this;
+
+        vis.selectedYears = selectedYears;
 
         vis.groupedData = d3.group(vis.data, d => d.year)
         vis.aggregatedData = vis.aggregateData(vis.groupedData)
@@ -123,13 +129,12 @@ class Barchart {
         vis.svg.selectAll(".x_axis_barchart")
             .call(vis.xAxis)
         
-        vis.renderVis();
+        vis.renderVis(selectedYears);
     }
 
     renderVis() {
         let vis = this;
         var groups = vis.data.columns.slice(1);
-        // console.log(groups)
 
         // level 1: group by years
         const yearGroup = vis.svg.selectAll('.year-groups')
@@ -141,39 +146,92 @@ class Barchart {
         
         yearGroupEnter.merge(yearGroup);
 
-        var bars = yearGroupEnter.selectAll('.category-bars')
+        const bars = yearGroupEnter.selectAll('.category-bars')
             .data(function(d) {
-                let subgroups = groups.map(function(key) { return {key: key, value: d[1][0][key]} })
+                let subgroups = groups.map(function(key) { return {key: key, value: [d[1][0][key], d[1][0]["year"]]} })
                 subgroups = subgroups.filter(function(d) { return vis.config.songAttributes.includes(d.key) })
                 return subgroups
-            } )
+            })
             .join('g')
             .attr('class', d => d.key + '-bars')
             .append("rect")
-            // .attr('class', d.key+'_bar')
             .attr('x', d => vis.bars(d.key))
-            .attr('y', d => d.key == "tempo" ? vis.yScaleRight(d.value) : vis.yScaleLeft(d.value))
+            .attr('y', d => d.key == "tempo" ? vis.yScaleRight(d.value[0]) : vis.yScaleLeft(d.value[0]))
             .attr('width', vis.bars.bandwidth())
-            .attr('height', d => d.key == "tempo" ? vis.height - vis.yScaleRight(d.value) : vis.height - vis.yScaleLeft(d.value))
+            .attr('height', d => d.key == "tempo" ? vis.height - vis.yScaleRight(d.value[0]) : vis.height - vis.yScaleLeft(d.value[0]))
             .attr("fill", d => vis.color(d.key))
             .on('mouseover', function(event, d) {
                 // turn opacity of all bars to 0.25
                 vis.svg.selectAll(vis.selectNonMatchingAttributes(d.key))
-                    .attr('opacity', 0.25)
+                    .attr('opacity', 0.25);
+
+                vis.renderToolTip(d, event, vis);
+
             })
             .on('mouseout', function(event, d) {
                 // turn opacity of all bars to 1
                 vis.svg.selectAll(vis.selectNonMatchingAttributes(d.key))
                     .attr('opacity', 1)
+
+                // remove tooltip
+                d3.select('#tooltip').style('display', 'none');
+            })
+            .exit().remove();
+        
+        bars.merge(yearGroup);
+
+        vis.svg.selectAll('.x_axis_barchart .tick text')
+            .on('click', function(event, d) {
+                // turn opacity of all bars to 0.25
+                vis.dispatcher.call('yearChanged', event, d);
             });
 
-            vis.renderLegend();
+        if (vis.selectedYears.length > 0) {
+            vis.svg.selectAll(vis.config.yearAttributes.map(d => '.year-groups-'+d))
+                .data(vis.aggregatedData)
+                .join('g')
+                .attr('opacity', d => {
+                    let nonSelectedYears = vis.config.yearAttributes.filter(year => !vis.selectedYears.includes(year))
+                    return nonSelectedYears.includes(d.year) ? 0.25 : 1
+                    
+                })
+        }
+
+    }
+
+    renderToolTip(d, event, vis) {
+        let attribute = d.key;
+        let average = d.value[0];
+        let year = d.value[1];        
+
+
+        // getting top 5 songs for that attribute and year
+        let top5Songs = vis.data.filter(d => d.year == year)
+            .sort((a, b) => b[attribute] - a[attribute]).slice(0, 5);
+
+        // create tooltip
+        d3.select('#tooltip')
+            .style('display', 'block')
+            .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')
+            .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
+            .html(`
+                    <div class="tooltip-bold">Attribute: ${attribute && attribute[0].toUpperCase() + attribute.slice(1)} </div>
+                    <div class="tooltip-bold">Average: ${average} </div>
+                    <div class="tooltip-bold">Year: ${year} </div>
+                    <div class="tooltip-bold">Top 5 Songs: </div>
+                    <div class="tooltip-bold">1: ${top5Songs[0].track_name}</div>
+                    <div class="tooltip-bold">2: ${top5Songs[1].track_name}</div>
+                    <div class="tooltip-bold">3: ${top5Songs[2].track_name}</div>
+                    <div class="tooltip-bold">4: ${top5Songs[3].track_name}</div>
+                    <div class="tooltip-bold">5: ${top5Songs[4].track_name}</div>
+
+                `);
     }
 
     renderLegend() {
         let vis = this;
-        let attribute1 = ["danceability", "liveliness", "energy", "acousticness"]
-        let attribute2 = ["instrumentalness", "valence", "tempo", "speechiness"]
+        let attribute1 = ["danceability", "liveness", "energy", "acousticness"];
+        let attribute2 = ["valence", "tempo", "speechiness",""];
 
         const yLegendScale1 = d3.scaleBand()
             .domain(attribute1)
@@ -198,8 +256,21 @@ class Barchart {
             .attr('cx', d => attribute1.includes(d) ? 0 : 150)
             .attr('cy', d => attribute1.includes(d)? yLegendScale1(d) -5: yLegendScale2(d) - 5)
             .attr('fill', d => vis.color(d))
+            .on('mouseover', function(event, d) {
+                // turn opacity of all bars to 0.5
+                vis.svg.selectAll(vis.selectNonMatchingAttributes(d))
+                    .attr('opacity', 0.25)
+            })
+            .on('mouseout', function(event, d) {
+                // turn opacity of all bars to 1
+                vis.svg.selectAll(vis.selectNonMatchingAttributes(d))
+                    .attr('opacity', 1)
+            })
 
-        legendGroupEnter.append('text')
+        const text = vis.legend.selectAll('.legend-groups')
+            .data(vis.config.songAttributes)
+            .join('g')
+            .append('text')
             .attr('class', 'legend-text')
             .attr('y', d => attribute1.includes(d)? yLegendScale1(d): yLegendScale2(d))
             .attr('x', d => attribute1.includes(d) ? 15 : 165)
