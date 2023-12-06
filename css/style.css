@@ -181,5 +181,9 @@ h1 {
 }
 
 .rectchart-subtitle{
-    font-size: 13px
+    font-size: 18px
+}
+
+.container-top {
+    display: flex;
 }

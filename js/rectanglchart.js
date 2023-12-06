@@ -8,7 +8,7 @@ class RectChart {
     constructor(_config, data) {
         this.config = {
             parentElement: _config.parentElement,
-            containerWidth: 260,
+            containerWidth: 200,
             containerHeight: 1200,
             margin: {
                 top: 60,
