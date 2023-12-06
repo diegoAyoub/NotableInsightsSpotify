@@ -108,7 +108,6 @@ class Barchart {
             .attr("transform", `translate(${vis.config.legendX},${vis.config.legendY})`)
 
         vis.updateVis(vis.selectedYears);
-        vis.renderLegend();
     }
 
     updateVis(selectedYears) {
@@ -156,9 +155,9 @@ class Barchart {
             .attr('class', d => d.key + '-bars')
             .append("rect")
             .attr('x', d => vis.bars(d.key))
-            .attr('y', d => d.key == "tempo" ? vis.yScaleRight(d.value[0]) : vis.yScaleLeft(d.value[0]))
+            .attr('y', d => d.key === "tempo" ? vis.yScaleRight(d.value[0]) : vis.yScaleLeft(d.value[0]))
             .attr('width', vis.bars.bandwidth())
-            .attr('height', d => d.key == "tempo" ? vis.height - vis.yScaleRight(d.value[0]) : vis.height - vis.yScaleLeft(d.value[0]))
+            .attr('height', d => d.key === "tempo" ? vis.height - vis.yScaleRight(d.value[0]) : vis.height - vis.yScaleLeft(d.value[0]))
             .attr("fill", d => vis.color(d.key))
             .on('mouseover', function(event, d) {
                 // turn opacity of all bars to 0.25
@@ -197,6 +196,7 @@ class Barchart {
                 })
         }
 
+        vis.renderLegend();
     }
 
     renderToolTip(d, event, vis) {
@@ -206,7 +206,7 @@ class Barchart {
 
 
         // getting top 5 songs for that attribute and year
-        let top5Songs = vis.data.filter(d => d.year == year)
+        let top5Songs = vis.data.filter(d => d.year === year)
             .sort((a, b) => b[attribute] - a[attribute]).slice(0, 5);
 
         // create tooltip
@@ -267,10 +267,7 @@ class Barchart {
                     .attr('opacity', 1)
             })
 
-        const text = vis.legend.selectAll('.legend-groups')
-            .data(vis.config.songAttributes)
-            .join('g')
-            .append('text')
+        legendGroupEnter.append('text')
             .attr('class', 'legend-text')
             .attr('y', d => attribute1.includes(d)? yLegendScale1(d): yLegendScale2(d))
             .attr('x', d => attribute1.includes(d) ? 15 : 165)
