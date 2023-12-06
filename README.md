@@ -21,6 +21,11 @@ Sources and Acknowledgements:
     - Used to help me add comments and toggle filter
 - (4) Used the scatterplot from tutorial to help me figure out how to start and other details.
 - (5) This is the database that was used in the project
+- Used (6) as the skeleton code for spider chart
+- Received help in TA office hours on:
+    - rendering spider chart with change in domain and range values
+    - debugging with dispatcher for selecting artists on scatterplot
+    - filtering data to obtain mean values for artists' song attributes
 
 Sources:
 - (1) https://stackoverflow.com/questions/10835500/how-to-change-text-transparency-in-html-css
@@ -28,3 +33,4 @@ Sources:
 - (3) https://chat.openai.com/
 - (4) https://codesandbox.io/s/github/UBC-InfoVis/2021-436V-examples/tree/master/d3-linked-charts-dispatcher?file=/js/main.js:431-594
 - (5) https://www.kaggle.com/datasets/josephinelsy/spotify-top-hit-playlist-2010-2022
+- (6) https://yangdanny97.github.io/blog/2019/03/01/D3-Spider-Chart
