@@ -142,7 +142,6 @@ class SpiderChart {
       );
 
     // draw axis label
-    // Note: The text for attributes are getting overwritten. Fix this.
     vis.svg
       .selectAll(".axislabel")
       .data(featureData, (d) => d.name)
@@ -185,10 +184,10 @@ class SpiderChart {
 
     if (artistData.length == 0) {
       const title = vis.svg
-        .selectAll(".titleText")
+        .selectAll(".spiderchart-title")
         .data(artistData, (d) => d.artist)
         .join("text")
-        .attr("class", "titleText")
+        .attr("class", "spiderchart-title")
         .attr("x", vis.width / 2)
         .attr("y", (d, i) => i * 10 + this.config.margin.top / 2)
         .attr("text-anchor", "middle")
@@ -205,10 +204,10 @@ class SpiderChart {
       );
 
       const title = vis.svg
-        .selectAll(".titleText")
+        .selectAll(".spiderchart-title")
         .data(artistData, (d) => d.artist)
         .join("text")
-        .attr("class", "titleText")
+        .attr("class", "spiderchart-title")
         .attr("x", vis.width / 2)
         .attr("y", (d, i) => i * 10 + this.config.margin.top / 2)
         .attr("text-anchor", "middle")
@@ -232,11 +231,10 @@ class SpiderChart {
       );
 
       const title = vis.svg
-        .selectAll(".titleText")
+        .selectAll(".spiderchart-title")
         .data(artistData, (d) => d.artist)
-        // svg
         .join("text")
-        .attr("class", "titleText")
+        .attr("class", "spiderchart-title")
         .attr("x", vis.width / 2)
         .attr("y", (d, i) => i * 10 + this.config.margin.top / 2)
         .attr("text-anchor", "middle")
