@@ -177,7 +177,6 @@ class Barchart {
                 // remove tooltip
                 d3.select('#tooltip').style('display', 'none');
             }).on('click', function(event, d) {
-                console.log(d.value[1]);
                 filterRectangleChart(d.key, d.value); // Call global function in main to update rectchart
               })
             .exit().remove();
