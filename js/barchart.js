@@ -105,8 +105,10 @@ class Barchart {
         // creating area for legend
         vis.legend = vis.svg.append("g")
             .attr("class", "legend")
-            .attr("transform", `translate(${vis.config.legendX},${vis.config.legendY})`)
+            .attr("transform", `translate(${vis.config.legendX},${vis.config.legendY})`);
 
+
+        vis.renderLegend();
         vis.updateVis(vis.selectedYears);
     }
 
@@ -196,7 +198,6 @@ class Barchart {
                 })
         }
 
-        vis.renderLegend();
     }
 
     renderToolTip(d, event, vis) {
