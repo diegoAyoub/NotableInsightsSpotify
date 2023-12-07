@@ -4,12 +4,11 @@ class RectChart {
      * Class constructor with basic chart configuration
      * @param {Object}
      */
-    // Todo: Add or remove parameters from the constructor as needed
     constructor(_config, data) {
         this.config = {
             parentElement: _config.parentElement,
             containerWidth: 260,
-            containerHeight: 1200,
+            containerHeight: 1100,
             margin: {
                 top: 60,
                 right: 20,
@@ -27,7 +26,6 @@ class RectChart {
   
     initVis() {
         let vis = this;
-      // Todo: Create SVG area, chart, initialize scales and axes, add titles, etc
         vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
         vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
         //Initialize Scales

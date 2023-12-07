@@ -20,8 +20,8 @@ class SpiderChart {
     initVis() {
         let vis = this;
 
-        vis.width = 550;
-        vis.height = 500;
+        vis.width = vis.config.containerWidth;
+        vis.height = vis.config.containerHeight;
 
         vis.svg = d3
             .select("body")
@@ -162,7 +162,7 @@ class SpiderChart {
 
         function angleToCoordinate(angle, value) {
             let x = Math.cos(angle) * radialScale(value);
-            let y = Math.sin(angle) * radialScale(value);
+            let y = Math.sin(angle) * radialScale(value) ;
             return {x: vis.width / 2 + x, y: vis.height / 2 - y};
         }
 

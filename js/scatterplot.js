@@ -12,7 +12,7 @@ class Scatterplot {
             parentElement: _config.parentElement,
             colorScale: _config.colorScale,
             containerWidth: _config.containerWidth || 1600,
-            containerHeight: _config.containerHeight || 650,
+            containerHeight: _config.containerHeight || 520,
             margin: _config.margin || {top: 80, right: 20, bottom: 20, left: 70},
             tooltipPadding: _config.tooltipPadding || 15,
         };
@@ -77,7 +77,7 @@ class Scatterplot {
         vis.radiusScale = d3
             .scaleRadial()
             .domain(d3.extent(vis.data, (d) => d.trackPopularity))
-            .range([1.0, 20.0]);
+            .range([1.0, 17.0]);
 
         vis.yAxis = d3
             .axisLeft(vis.yScale)

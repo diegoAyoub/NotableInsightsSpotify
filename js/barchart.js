@@ -7,12 +7,12 @@ class Barchart {
             legendX: 50,
             legendY: -75,
             legendRadius: 10,
-            containerWidth: 2000,
-            containerHeight: 700,
+            containerWidth: 2200,
+            containerHeight: 550,
             tooltipPadding: 5,
             margin: {
                 top: 100,
-                right: 40,
+                right: 100,
                 bottom: 30,
                 left: 40
             },
