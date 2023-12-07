@@ -143,10 +143,11 @@ class RectChart {
         vis.colorScale = d3.scaleLinear()
             .domain([0,1])
             .range(['#ffffff', color]);
-        
+    
         d3.selectAll(".rectchartlegend")
             .style("background", `linear-gradient(to right, #ffffff, ${color})`);
         
+
         vis.config.selectedYear = rectFilter.year;
         vis.xValue = d => 1;
         vis.yValue = d => {
