@@ -19,7 +19,16 @@ class RectChart {
             tooltipPadding: 5,
             selectedAttribute: rectFilter.attribute,
             selectedYear: rectFilter.year,
-            sortBy: 'popularity'
+            sortBy: 'popularity',
+            color: {
+                "danceability": "#ff6961", 
+                "liveness": "#ffb480",
+                "energy": "#f8f38d",
+                "acousticness": "#42d6a4",
+                "valence": "#59adf6",
+                "tempo": "#9d94ff",
+                "speechiness": '#c780e8'
+            }
         }
         this.data = data;
         this.initVis();
@@ -127,6 +136,17 @@ class RectChart {
     updateVis() {
         let vis = this;
         vis.config.selectedAttribute = rectFilter.attribute;
+        // update color as scale as well
+
+        let color = vis.config.color[vis.config.selectedAttribute]
+
+        vis.colorScale = d3.scaleLinear()
+            .domain([0,1])
+            .range(['#ffffff', color]);
+        
+        d3.selectAll(".rectchartlegend")
+            .style("background", `linear-gradient(to right, #ffffff, ${color})`);
+        
         vis.config.selectedYear = rectFilter.year;
         vis.xValue = d => 1;
         vis.yValue = d => {
