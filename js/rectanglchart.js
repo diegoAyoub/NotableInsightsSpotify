@@ -191,7 +191,7 @@ class RectChart {
             <div class="tooltip-bold">Artist: ${d.artist_name} </div>
             <div class="tooltip-bold">Song: ${d.track_name} </div>
             <div class="tooltip-text">popularity (0-99): ${d.trackPopularity}</div>
-            <div class="tooltip-text">${vis.config.selectedAttribute}): ${d[vis.config.selectedAttribute]} </div>
+            <div class="tooltip-text">${vis.config.selectedAttribute}: ${d[vis.config.selectedAttribute]} </div>
           `);
             })
             .on('mouseleave', () => {
