@@ -8,13 +8,13 @@ class RectChart {
     constructor(_config, data) {
         this.config = {
             parentElement: _config.parentElement,
-            containerWidth: 200,
+            containerWidth: 260,
             containerHeight: 1200,
             margin: {
                 top: 60,
-                right: 15,
+                right: 20,
                 bottom: 20,
-                left: 30
+                left: 45
             },
             tooltipPadding: 5,
             selectedAttribute: rectFilter.attribute,
@@ -77,9 +77,10 @@ class RectChart {
             .attr('class', 'rectchart-subtitle axis-label')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('dy',10)
-            .attr('dx', -30)
+            .attr('dy',15)
+            .attr('dx', -40)
             .attr('text-anchor', 'start')
+            .attr('font-weight', 'bold')
             .text('Low');
         
         vis.chart.append('text')
@@ -87,8 +88,9 @@ class RectChart {
             .attr('x', 0)
             .attr('y', vis.height)
             .attr('dy',0)
-            .attr('dx', -30)
+            .attr('dx', -41)
             .attr('text-anchor', 'start')
+            .attr('font-weight', 'bold')
             .text('High');
   
         vis.chart.append('text')
@@ -96,7 +98,7 @@ class RectChart {
             .attr('x', 0)
             .attr('y', 0)
             .attr('dy',-40)
-            .attr('dx', -10)
+            .attr('dx', -30)
             .attr('text-anchor', 'start')
             .text('Songs by Attribute and Popularity');
   
@@ -105,8 +107,8 @@ class RectChart {
             .attr('x', 0)
             .attr('y', 0)
             .attr('dy',-21)
-            .attr('dx', 35)
-            .attr('text-anchor', 'start')
+            .attr('dx', 160)
+            .attr('text-anchor', 'end')
             .text(`Year Selected: ${vis.config.selectedYear}`);
   
         vis.attributeSubtitle = vis.chart.append('text')
@@ -114,8 +116,8 @@ class RectChart {
             .attr('x', 0)
             .attr('y', 0)
             .attr('dy',-5)
-            .attr('dx', 6)
-            .attr('text-anchor', 'start')
+            .attr('dx', 190)
+            .attr('text-anchor', 'end')
             .text(`Attribute Selected: ${vis.config.selectedAttribute}`);
   
         vis.updateVis();

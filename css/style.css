@@ -169,19 +169,20 @@ h1 {
   }
 
 .rectchartlegend {
-    width: 200px;
+    width: 150px;
     height: 20px;
     background: linear-gradient(to right, #ffffff, #7733ff);
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin-bottom: 30px;
   }
 
 .rectchart-axis-title{
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .rectchart-subtitle{
-    font-size: 18px
+    font-size: 16px
 }
 
 .container-top {

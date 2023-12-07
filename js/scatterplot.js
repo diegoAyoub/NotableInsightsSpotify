@@ -11,8 +11,8 @@ class Scatterplot {
         this.config = {
             parentElement: _config.parentElement,
             colorScale: _config.colorScale,
-            containerWidth: _config.containerWidth || 2000,
-            containerHeight: _config.containerHeight || 600,
+            containerWidth: _config.containerWidth || 1600,
+            containerHeight: _config.containerHeight || 650,
             margin: _config.margin || {top: 80, right: 20, bottom: 20, left: 70},
             tooltipPadding: _config.tooltipPadding || 15,
         };
