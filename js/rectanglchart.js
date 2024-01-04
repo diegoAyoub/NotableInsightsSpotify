@@ -21,13 +21,13 @@ class RectChart {
             selectedYear: rectFilter.year,
             sortBy: 'popularity',
             color: {
-                "danceability": "#ff6961", 
-                "liveness": "#ffb480",
-                "energy": "#f8f38d",
-                "acousticness": "#42d6a4",
-                "valence": "#59adf6",
-                "tempo": "#9d94ff",
-                "speechiness": '#c780e8'
+                "danceability": danceabilityColor, 
+                "liveness": livenessColor,
+                "energy": energyColor,
+                "acousticness": acousticnessColor,
+                "valence": valenceColor,
+                "tempo": tempoColor,
+                "speechiness": speechinessColor
             }
         }
         this.data = data;

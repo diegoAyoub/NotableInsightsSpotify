@@ -16,7 +16,8 @@ class Barchart {
                 bottom: 30,
                 left: 40
             },
-            color: ["#ff6961", "#ffb480", "#f8f38d", "#42d6a4", "#59adf6", "#9d94ff", '#c780e8']
+            color: [danceabilityColor, livenessColor, energyColor, acousticnessColor, valenceColor, tempoColor, speechinessColor]
+            //color: [red - danceability, neongreen - liveness, azure/blue - energy, fuchsia - acousticness, factoryyellow - valence,     ]
         }
         this.dispatcher = _dispatcher;
         this.selectedYears = _selectedYears;
@@ -78,7 +79,7 @@ class Barchart {
             .tickPadding(8);
 
         vis.svg.append("g")
-            .attr("class", "y_axis_barchart_left")
+            .attr("class", "y_axis_barchart_left y-axis")
             .call(vis.yAxisLeft)
 
         vis.yScaleRight = d3.scaleLinear()
@@ -90,7 +91,7 @@ class Barchart {
             .tickSize(0)
         
         vis.svg.append("g")
-            .attr("class", "y_axis_barchart_right")
+            .attr("class", "y_axis_barchart_right y-axis")
             .attr("transform", `translate(${vis.width},0)`)
             .call(vis.yAxisRight)
         
@@ -207,7 +208,7 @@ class Barchart {
         let average = d.value[0];
         let year = d.value[1];        
 
-
+        console.log(selectedYears);
         // getting top 5 songs for that attribute and year
         let top5Songs = vis.data.filter(d => d.year === year)
             .sort((a, b) => b[attribute] - a[attribute]).slice(0, 5);

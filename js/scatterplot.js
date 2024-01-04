@@ -71,7 +71,7 @@ class Scatterplot {
         // Define a color scale for year
         vis.colorScale = d3
             .scaleLinear()
-            .range(["#fa3b3b", "#3369fc"])
+            .range(["#fa3b3b", "#3369fc"]) //legend year scale range
             .domain(d3.extent(vis.data, (d) => d.year));
 
         vis.radiusScale = d3
@@ -189,10 +189,11 @@ class Scatterplot {
         let bracketLineEndX = x + smallCircle + largeCircle + spaceBetweenCircles + largeCircle + 5;
         vis.svg.append('path')
             .attr('d', `M ${bracketLineStartX} ${y + largeCircle + 5} h ${bracketLineEndX - bracketLineStartX} M ${bracketLineStartX} ${y + largeCircle + 5} v -5 M ${bracketLineEndX} ${y + largeCircle + 5} v -5`)
-            .style('stroke', 'black');
+            .style('stroke', '#fff');
 
         // Add text label
         vis.svg.append('text')
+            .attr('class', 'legend-text')
             .attr('x', x + (largeCircle + spaceBetweenCircles) / 2 + 10)
             .attr('y', y + largeCircle + 35)
             .style('text-anchor', 'middle')
@@ -248,6 +249,7 @@ class Scatterplot {
 
 
         vis.svg.append('text')
+            .attr('class', 'legend-text')
             .attr('x', legendX + years.indexOf(minYear) * (legendRectSize + legendSpacing) + 20)
             .attr('y', legendY + legendRectSize - 35)
             .style('text-anchor', 'middle')
@@ -255,6 +257,7 @@ class Scatterplot {
             .text(minYear);
 
         vis.svg.append('text')
+            .attr('class', 'legend-text')
             .attr('x', legendX + years.indexOf(maxYear) * (legendRectSize + legendSpacing))
             .attr('y', legendY + legendRectSize - 35)
             .style('text-anchor', 'middle')
@@ -262,6 +265,7 @@ class Scatterplot {
             .text(maxYear);
 
         vis.svg.append('text')
+            .attr('class', 'legend-text')
             .attr('x', legendX + years.indexOf((maxYear + minYear) / 2) * (legendRectSize + legendSpacing))
             .attr('y', legendY + legendRectSize + 40)
             .style('text-anchor', 'middle')

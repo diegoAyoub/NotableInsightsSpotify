@@ -1,5 +1,24 @@
+:root {
+    --text-color: #FFF;
+}
+
+.x-axis{
+
+    color: var(--text-color);
+
+}
+
+.y-axis{
+
+    color: var(--text-color);
+
+}
+
+
+
 .x_axis_barchart {
     font-size: 20px;
+    color: var(--text-color);
 }
 
 .x_axis_barchart .domain {
@@ -8,6 +27,7 @@
 
 .y_axis_barchart_left {
     font-size: 20px;
+    color: var(--text-color);
 }
 
 .y_axis_barchart_left .domain {
@@ -34,6 +54,7 @@
 .legend-text {
     font-family: 'Varela Round';
     color: #dcdcdc;
+    fill: var(--text-color);
     font-size: 20px;
 }
 
@@ -41,7 +62,8 @@ body {
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 10px;
     padding: 30px;
-    background: #ffffff;
+    /* background: #191414; */
+    background: #5A5A5A;
 }
 
 
@@ -189,10 +211,14 @@ h1 {
 
 .rectchart-axis-title{
     font-size: 16px;
+    color: var(--text-color);
+    /* stroke: var(--text-color); */
+    fill: var(--text-color);
 }
 
 .rectchart-subtitle{
-    font-size: 16px
+    font-size: 16px;
+    fill: var(--text-color);
 }
 
 .container-top {

@@ -3,6 +3,15 @@ const dispatcher = d3.dispatch('filterArtists');
 const yearDispatcher = d3.dispatch('yearChanged');
 let selectedYears = [];
 let rectFilter;
+const danceabilityColor = "#eb1e32"; //red
+const livenessColor = "#5ff550"; //neongreen
+const energyColor = "#4100f5"; //dark blue
+const acousticnessColor = "#f037a5"; //fuchsia
+const valenceColor = "#fae62d"; //factoryyellow
+const tempoColor = "#ff6437";
+const speechinessColor = "#9bf0e1";
+// color: ["#eb1e32", "#5ff550", "#509bf5", "#f037a5", "#fae62d", "#9d94ff", '#c780e8']
+//color: [red - danceability, neongreen - liveness, azure/blue - energy, fuchsia - acousticness, factoryyellow - valence,     ]
 
   d3.csv('data/spotify_playlist.csv').then(data => {
     initial_data = data.forEach(d => {
